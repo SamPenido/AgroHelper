@@ -37,6 +37,47 @@ O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios
 
 ---
 
+## 📂 Estrutura do Projeto  
+
+### 📌 Backend (Java + Spring Boot)
+```
+agrohelper-backend/
+│── src/
+│   ├── main/java/com/agrohelper/
+│   │   ├── controllers/    # Controladores REST
+│   │   ├── models/         # Modelos das entidades do banco de dados
+│   │   ├── repositories/   # Interfaces para interação com o banco de dados
+│   │   ├── services/       # Lógica de negócio
+│   ├── resources/
+│   │   ├── application.properties  # Configurações do banco de dados
+│── pom.xml    # Dependências do Maven
+│── Dockerfile # Configuração para containerização
+│── README.md  # Documentação do projeto
+```
+
+### 📌 Front-end (HTML, CSS e JavaScript)
+```
+agrohelper-frontend/
+│── assets/          # Arquivos estáticos (imagens, ícones)
+│── css/             # Estilos CSS
+│   ├── style.css    # Estilo principal
+│── js/              # Scripts JavaScript
+│   ├── main.js      # Lógica principal da aplicação
+│   ├── api.js       # Conexão com backend (fetch API)
+│   ├── auth.js      # Controle de login e autenticação
+│── pages/           # Páginas individuais
+│   ├── index.html   # Página inicial
+│   ├── login.html   # Tela de login
+│   ├── dashboard.html  # Área do usuário
+│   ├── marketplace.html # Tela de compra e venda
+│   ├── clima.html   # Previsão do tempo
+│   ├── pragas.html  # Diagnóstico de pragas
+│── index.html       # Estrutura principal do site
+│── README.md        # Documentação do frontend
+```
+
+---
+
 ## 👨‍💻 Integrantes  
 🔹 **Artur Rizzi Martinho**  
 🔹 **Erick Lima Hardeman**  
@@ -51,3 +92,5 @@ O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios
 ```bash
 git clone https://github.com/SamPenido/agrohelper.git
 cd agrohelper
+```
+
