@@ -49,5 +49,5 @@ O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios
 
 ### 1️⃣ **Clone o repositório**  
 ```bash
-git clone https://github.com/seu-usuario/agrohelper.git
+git clone https://github.com/SamPenido/agrohelper.git
 cd agrohelper
