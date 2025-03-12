@@ -37,12 +37,13 @@ O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios
 
 ---
 
+## 👨‍💻 Integrantes  
+🔹 **Artur Rizzi Martinho**  
+🔹 **Erick Lima Hardeman**  
+🔹 **Gabriel Drumond Franklin de Miranda e Rezende**  
+🔹 **Samuel Penido**  
 
-##👨‍💻 Integrantes
-Artur Rizzi Martinho
-Erick Lima Hardeman
-Gabriel Drumond Franklin de Miranda e Rezende
-Samuel Penido
+---
 
 ## ⚡ Como Rodar o Projeto  
 
@@ -50,5 +51,3 @@ Samuel Penido
 ```bash
 git clone https://github.com/seu-usuario/agrohelper.git
 cd agrohelper
-
-
