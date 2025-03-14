@@ -7,6 +7,7 @@
 - [x] Configurar estrutura básica de pastas
 - [x] Criar sistema de navegação entre páginas
 - [x] Componente de menu responsivo
+- [x] Carregamento dinâmico do menu via JavaScript
 - [x] Desenvolver sistema de autenticação básico
 - [x] Criar templates das páginas principais
 - [x] Implementar integração básica com backend via Fetch API
