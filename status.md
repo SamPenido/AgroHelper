@@ -4,11 +4,13 @@
 
 ### Frontend
 - [x] Definir arquitetura e tecnologias
-- [ ] Configurar estrutura básica de pastas
-- [ ] Criar sistema de navegação entre páginas
-- [ ] Desenvolver sistema de autenticação básico
-- [ ] Criar templates das páginas principais
+- [x] Configurar estrutura básica de pastas
+- [x] Criar sistema de navegação entre páginas
+- [x] Desenvolver sistema de autenticação básico
+- [x] Criar templates das páginas principais
 - [ ] Implementar integração com backend via Fetch API
+- [x] Desenvolver página de registro
+- [x] Criar estrutura básica do marketplace
 
 ### Backend
 - [ ] Configurar ambiente Spring Boot

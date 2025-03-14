@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - AgroHelper</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../../index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="active">Cadastro</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="auth-container">
+            <h1>Criar Conta</h1>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="user-type">Tipo de Usuário</label>
+                    <select id="user-type" name="user-type" required>
+                        <option value="">Selecione...</option>
+                        <option value="farmer">Agricultor</option>
+                        <option value="technician">Técnico Agrícola</option>
+                        <option value="buyer">Comprador</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn primary">Cadastrar</button>
+            </form>
+            <p class="auth-link">Já tem uma conta? <a href="login.html">Faça login</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>AgroHelper &copy; 2025</p>
+    </footer>
+</body>
+</html>
