@@ -28,8 +28,12 @@ header {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    background: red; /* Temporário para visualização */
     padding: 1rem;
+}
+
+/* Adiciona cor de fundo ao header */
+header {
+    background: #2c3e50;
 }
 
 .logo a {
