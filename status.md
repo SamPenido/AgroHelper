@@ -9,6 +9,7 @@
 - [x] Desenvolver sistema de autenticação básico
 - [x] Criar templates das páginas principais
 - [x] Implementar integração básica com backend via Fetch API
+- [x] Integração com OpenWeatherMap API
 - [ ] Adicionar gráficos com Chart.js
 - [ ] Implementar atualização em tempo real
 - [x] Desenvolver página de registro
