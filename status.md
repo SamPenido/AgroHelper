@@ -21,8 +21,10 @@
 - [ ] Criar endpoints básicos
 
 ### Banco de Dados
-- [ ] Modelagem inicial
+- [x] Modelagem inicial com JPA
 - [ ] Configuração do PostgreSQL
+- [ ] Repositórios JPA
+- [ ] Serviços de acesso a dados
 
 ### IA
 - [ ] Configurar ambiente Python
