@@ -27,11 +27,12 @@
 
 ## 📅 Próximos Passos (Frontend)
 
-1. Adicionar animações e transições suaves
-2. Implementar carregamento dinâmico de conteúdo
-3. Desenvolver versão mobile-first
-4. Adicionar mais seções informativas
-5. Integrar com APIs de previsão do tempo
+1. Adicionar gráficos reais com Chart.js
+2. Implementar sistema de notificações
+3. Desenvolver página de gestão de propriedades
+4. Criar sistema de relatórios personalizados
+5. Adicionar dark mode
+6. Implementar internacionalização (i18n)
 
 ## 🛠️ Requisitos Técnicos Frontend
 

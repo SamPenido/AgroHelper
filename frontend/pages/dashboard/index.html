@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AgroHelper</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../../index.html">Home</a>
+            <a href="../auth/login.html">Login</a>
+            <a href="../auth/register.html">Cadastro</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <h1>Meu Dashboard</h1>
+            
+            <div class="dashboard-grid">
+                <!-- Resumo -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="icon">🌱</div>
+                        <h3>Área Plantada</h3>
+                        <p>150 hectares</p>
+                    </div>
+                    <div class="summary-card">
+                        <div class="icon">📈</div>
+                        <h3>Produtividade</h3>
+                        <p>+15% este mês</p>
+                    </div>
+                    <div class="summary-card">
+                        <div class="icon">💧</div>
+                        <h3>Uso de Água</h3>
+                        <p>120.000 L</p>
+                    </div>
+                </div>
+
+                <!-- Gráficos -->
+                <div class="charts">
+                    <div class="chart-card">
+                        <h3>Produção Mensal</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Gastos por Categoria</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                </div>
+
+                <!-- Alertas -->
+                <div class="alerts">
+                    <h2>Alertas Recentes</h2>
+                    <div class="alert-card warning">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <h3>Chuva Intensa Prevista</h3>
+                            <p>Previsão de 80mm para os próximos 3 dias</p>
+                        </div>
+                    </div>
+                    <div class="alert-card info">
+                        <div class="alert-icon">ℹ️</div>
+                        <div class="alert-content">
+                            <h3>Fertilização Pendente</h3>
+                            <p>Área 3 precisa de fertilização</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>AgroHelper &copy; 2025</p>
+    </footer>
+</body>
+</html>
