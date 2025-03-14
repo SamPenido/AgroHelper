@@ -37,6 +37,10 @@ O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios
    - Interface intuitiva e responsiva  
    - Sistema de avaliação de vendedores (em desenvolvimento)  
 ✅ **Relatórios de Produção e Custos**  
+   - Dados atualizados em tempo real  
+   - Integração com APIs de previsão e análise  
+   - Histórico de produtividade  
+   - Alertas inteligentes baseados em IA  
 ✅ **Alertas Inteligentes** (Notificações sobre clima e pragas)  
 
 ---
