@@ -27,11 +27,11 @@
 
 ## 📅 Próximos Passos (Frontend)
 
-1. Criar estrutura básica de pastas
-2. Configurar sistema de navegação entre páginas
-3. Desenvolver template base com header e footer
-4. Criar sistema de autenticação básico
-5. Desenvolver página inicial
+1. Adicionar animações e transições suaves
+2. Implementar carregamento dinâmico de conteúdo
+3. Desenvolver versão mobile-first
+4. Adicionar mais seções informativas
+5. Integrar com APIs de previsão do tempo
 
 ## 🛠️ Requisitos Técnicos Frontend
 
