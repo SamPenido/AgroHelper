@@ -32,7 +32,15 @@ O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios
 ✅ **Diagnóstico de Pragas via IA** (Análise de imagens)  
 ✅ **Chatbot para suporte agrícola**  
 ✅ **Marketplace** para compra e venda de produtos agrícolas  
+   - Filtros avançados por categoria e localização  
+   - Cards de produtos com informações detalhadas  
+   - Interface intuitiva e responsiva  
+   - Sistema de avaliação de vendedores (em desenvolvimento)  
 ✅ **Relatórios de Produção e Custos**  
+   - Dados atualizados em tempo real  
+   - Integração com APIs de previsão e análise  
+   - Histórico de produtividade  
+   - Alertas inteligentes baseados em IA  
 ✅ **Alertas Inteligentes** (Notificações sobre clima e pragas)  
 
 ---

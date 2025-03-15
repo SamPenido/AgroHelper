@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AgroHelper</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="../../index.html">🌱 AgroHelper</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../auth/login.html">Login</a></li>
+                <li><a href="../auth/register.html">Cadastro</a></li>
+                <li><a href="index.html" class="active">Dashboard</a></li>
+                <li><a href="../marketplace/index.html">Marketplace</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <h1>Meu Dashboard</h1>
+            
+            <div class="dashboard-grid">
+                <!-- Resumo -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="icon">🌱</div>
+                        <h3>Área Plantada</h3>
+                        <p id="planted-area">Carregando...</p>
+                    </div>
+                    <div class="summary-card">
+                        <div class="icon">📈</div>
+                        <h3>Produtividade</h3>
+                        <p id="productivity">Carregando...</p>
+                    </div>
+                    <div class="summary-card">
+                        <div class="icon">💧</div>
+                        <h3>Uso de Água</h3>
+                        <p id="water-usage">Carregando...</p>
+                    </div>
+                </div>
+
+                <!-- Gráficos -->
+                <div class="charts">
+                    <div class="chart-card">
+                        <h3>Produção Mensal</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Gastos por Categoria</h3>
+                        <div class="chart-placeholder"></div>
+                    </div>
+                </div>
+
+                <!-- Previsão do Tempo -->
+                <div class="weather-widget">
+                    <h2>Previsão do Tempo</h2>
+                    <div id="weather-widget">Carregando...</div>
+                </div>
+
+                <!-- Alertas -->
+                <div class="alerts">
+                    <h2>Alertas Recentes</h2>
+                    <div class="alert-card warning">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <h3>Chuva Intensa Prevista</h3>
+                            <p>Previsão de 80mm para os próximos 3 dias</p>
+                        </div>
+                    </div>
+                    <div class="alert-card info">
+                        <div class="alert-icon">ℹ️</div>
+                        <div class="alert-content">
+                            <h3>Fertilização Pendente</h3>
+                            <p>Área 3 precisa de fertilização</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>AgroHelper &copy; 2025</p>
+    </footer>
+
+    <script src="../../assets/js/weather.js" type="module"></script>
+</body>
+</html>

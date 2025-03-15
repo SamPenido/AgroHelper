@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - AgroHelper</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="../../index.html">🌱 AgroHelper</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../auth/login.html">Login</a></li>
+                <li><a href="../auth/register.html">Cadastro</a></li>
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+                <li><a href="index.html" class="active">Marketplace</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="marketplace-dashboard">
+            <h1>Marketplace AgroHelper</h1>
+            
+            <div class="marketplace-grid">
+                <!-- Filtros e Pesquisa -->
+                <aside class="filters">
+                    <h2>Filtros</h2>
+                    <div class="filter-group">
+                        <label for="category">Categoria</label>
+                        <select id="category">
+                            <option value="">Todas</option>
+                            <option value="grains">Grãos</option>
+                            <option value="fruits">Frutas</option>
+                            <option value="vegetables">Legumes</option>
+                            <option value="equipment">Equipamentos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="location">Localização</label>
+                        <input type="text" id="location" placeholder="Digite sua região">
+                    </div>
+                    
+                    <button class="btn primary">Aplicar Filtros</button>
+                </aside>
+
+                <!-- Listagem de Produtos -->
+                <div class="product-list">
+                    <div class="product-card">
+                        <img src="../../assets/images/placeholder.jpg" alt="Produto">
+                        <div class="product-info">
+                            <h3>Milho Orgânico</h3>
+                            <p class="price">R$ 120,00/saca</p>
+                            <p class="location">Minas Gerais</p>
+                            <button class="btn secondary">Ver Detalhes</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="../../assets/images/placeholder.jpg" alt="Produto">
+                        <div class="product-info">
+                            <h3>Trator Usado</h3>
+                            <p class="price">R$ 45.000,00</p>
+                            <p class="location">São Paulo</p>
+                            <button class="btn secondary">Ver Detalhes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>AgroHelper &copy; 2025</p>
+    </footer>
+</body>
+</html>
