@@ -23,7 +23,7 @@
 - [ ] Criar endpoints básicos
 
 ### Banco de Dados
-- [x] Modelagem inicial com JPA
+- [x] Modelagem inicial com JPA (Agricultor, Comprador, Admin)
 - [ ] Configuração do PostgreSQL
 - [ ] Repositórios JPA
 - [ ] Serviços de acesso a dados

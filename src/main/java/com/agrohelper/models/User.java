@@ -29,5 +29,5 @@ public class User {
 }
 
 enum UserType {
-    FARMER, TECHNICIAN, BUYER
+    FARMER, BUYER, ADMIN
 }
