@@ -213,6 +213,7 @@ footer {
 }
 
 .hero-image {
+    margin-right: 200px;
     position: relative;
     z-index: 1;
     animation: float 6s ease-in-out infinite;
