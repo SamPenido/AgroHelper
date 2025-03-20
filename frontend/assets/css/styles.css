@@ -135,10 +135,8 @@ footer {
 }
 
 .stats-overlay {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
+    position: relative;
+    margin-top: 20px;
     display: flex;
     gap: 20px;
     background: rgba(255,255,255,0.9);
@@ -146,6 +144,10 @@ footer {
     border-radius: 15px;
     backdrop-filter: blur(10px);
     animation: floatStats 6s ease-in-out infinite;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .stat-card {
@@ -242,10 +244,11 @@ footer {
 }
 
 .hero-image img {
-    margin-right: 200px;
     max-width: 600px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: block;
+    margin: 0 auto;
 }
 
 .highlights {
