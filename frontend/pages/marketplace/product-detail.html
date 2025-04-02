@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto - AgroHelper</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        /* Estilos específicos para a página de detalhes */
+        .product-detail-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .product-images img {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        .product-info-detail h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        .product-info-detail .price {
+            font-size: 1.8rem;
+            color: #27ae60;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .product-info-detail .description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        .seller-info {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        .seller-info h3 {
+            color: #34495e;
+            margin-bottom: 0.5rem;
+        }
+        .action-buttons .btn {
+            margin-right: 1rem;
+            margin-bottom: 0.5rem; /* Para empilhar em telas menores */
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+            }
+            .product-images {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Menu (pode ser carregado via JS ou incluído diretamente) -->
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="../../index.html">🌱 AgroHelper</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../auth/login.html">Login</a></li>
+                <li><a href="../auth/register.html">Cadastro</a></li>
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+                <li><a href="index.html" class="active">Marketplace</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="product-detail-container">
+            <!-- Coluna de Imagens (Placeholder) -->
+            <div class="product-images">
+                <img src="../../assets/images/placeholder-detail.jpg" alt="Imagem Principal do Produto">
+                <!-- Miniaturas podem ser adicionadas aqui -->
+            </div>
+
+            <!-- Coluna de Informações (Placeholder) -->
+            <div class="product-info-detail">
+                <h1>Nome do Produto Placeholder</h1>
+                <p class="price">R$ 00,00</p>
+                
+                <div class="description">
+                    <p>Descrição detalhada do produto placeholder. Aqui virão informações completas sobre o item, suas características, condições, etc.</p>
+                    <ul>
+                        <li>Característica 1</li>
+                        <li>Característica 2</li>
+                        <li>Condição: Novo/Usado</li>
+                    </ul>
+                </div>
+
+                <div class="seller-info">
+                    <h3>Informações do Vendedor</h3>
+                    <p><strong>Nome:</strong> Vendedor Placeholder</p>
+                    <p><strong>Localização:</strong> Cidade Placeholder, Estado</p>
+                    <p><strong>Avaliação:</strong> ⭐⭐⭐⭐ (4.0)</p> <!-- Exemplo -->
+                    <a href="#contact-seller" class="btn secondary small">Contatar Vendedor</a>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn primary">Adicionar ao Carrinho</button>
+                    <button class="btn secondary">Adicionar aos Favoritos</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>AgroHelper &copy; 2025</p>
+    </footer>
+
+    <!-- Scripts (ex: para carregar menu, interatividade) -->
+    <!-- <script src="../../assets/js/loadMenu.js"></script> -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Static data for example products
+            const products = {
+                '1': {
+                    title: 'Milho Orgânico (Saca 60kg)',
+                    price: 'R$ 120,00 / saca',
+                    description: 'Milho de alta qualidade, cultivado sem agrotóxicos. Ideal para alimentação animal ou consumo humano.',
+                    features: ['Orgânico Certificado', 'Alto valor nutritivo', 'Colheita recente'],
+                    condition: 'Novo',
+                    sellerName: 'Fazenda Sol Nascente',
+                    sellerLocation: 'Minas Gerais',
+                    sellerRating: '⭐⭐⭐⭐⭐ (4.8)',
+                    image: '../../assets/images/milho.jpg' 
+                },
+                '2': {
+                    title: 'Trator Agrícola Usado MF 275',
+                    price: 'R$ 45.000,00',
+                    description: 'Trator Massey Ferguson 275, ano 2010, em bom estado de conservação e funcionamento. Revisado recentemente.',
+                    features: ['Motor Perkins 4 cilindros', 'Direção Hidráulica', 'Pneus em bom estado'],
+                    condition: 'Usado',
+                    sellerName: 'AgroEquipamentos SP',
+                    sellerLocation: 'São Paulo',
+                    sellerRating: '⭐⭐⭐⭐ (4.2)',
+                    image: '../../assets/images/trator.jpg'
+                },
+                '3': {
+                    title: 'Laranja Pera Orgânica (Caixa 20kg)',
+                    price: 'R$ 50,00 / caixa',
+                    description: 'Laranjas frescas e suculentas, tipo Pera, cultivadas sem agrotóxicos. Colhidas no ponto ideal.',
+                    features: ['Certificação Orgânica', 'Sabor adocicado', 'Ideal para sucos'],
+                    condition: 'Novo',
+                    sellerName: 'Sítio Boa Esperança',
+                    sellerLocation: 'Bahia',
+                    sellerRating: '⭐⭐⭐⭐⭐ (4.9)',
+                    image: '../../assets/images/laranja.jpg'
+                },
+                 '4': {
+                    title: 'Consultoria Agrícola Especializada',
+                    price: 'R$ 300,00 / hora',
+                    description: 'Serviços de consultoria para otimizar sua produção. Inclui análise de solo, planejamento de safra, manejo integrado de pragas e recomendações personalizadas.',
+                    features: ['Engenheiro Agrônomo experiente', 'Foco em sustentabilidade', 'Atendimento remoto ou presencial'],
+                    condition: 'Serviço',
+                    sellerName: 'AgroConsult',
+                    sellerLocation: 'Remoto / Nacional',
+                    sellerRating: '⭐⭐⭐⭐⭐ (5.0)',
+                    image: '../../assets/images/consultoria.jpg'
+                }
+            };
+
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            const product = products[productId];
+
+            // Update page content if product found
+            if (product) {
+                document.querySelector('.product-info-detail h1').textContent = product.title;
+                document.querySelector('.product-info-detail .price').textContent = product.price;
+                
+                const descriptionDiv = document.querySelector('.product-info-detail .description');
+                descriptionDiv.innerHTML = `<p>${product.description}</p>`; // Clear old content
+                if (product.features) {
+                    const ul = document.createElement('ul');
+                    product.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        ul.appendChild(li);
+                    });
+                    descriptionDiv.appendChild(ul);
+                }
+                 if (product.condition) {
+                     const p = document.createElement('p');
+                     p.innerHTML = `<strong>Condição:</strong> ${product.condition}`;
+                     descriptionDiv.appendChild(p);
+                 }
+
+
+                const sellerInfoDiv = document.querySelector('.seller-info');
+                sellerInfoDiv.querySelector('p:nth-of-type(1) strong').nextSibling.textContent = ` ${product.sellerName}`;
+                sellerInfoDiv.querySelector('p:nth-of-type(2) strong').nextSibling.textContent = ` ${product.sellerLocation}`;
+                sellerInfoDiv.querySelector('p:nth-of-type(3)').innerHTML = `<strong>Avaliação:</strong> ${product.sellerRating}`;
+
+                document.querySelector('.product-images img').src = product.image;
+                document.querySelector('.product-images img').alt = product.title; // Update alt text
+            } else {
+                // Handle case where product ID is not found or invalid
+                document.querySelector('.product-info-detail').innerHTML = '<h1>Produto não encontrado</h1><p>O produto que você está procurando não existe ou o link está incorreto.</p>';
+                document.querySelector('.product-images').style.display = 'none'; // Hide image area
+            }
+
+            // Simulação de verificação de autenticação ao carregar a página
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Você precisa estar logado para ver os detalhes do produto.');
+                window.location.href = '../auth/login.html'; // Redireciona se não houver token
+            }
+        });
+    </script>
+</body>
+</html>

@@ -13,11 +13,12 @@
                 <a href="../../index.html">🌱 AgroHelper</a>
             </div>
             <ul class="nav-links">
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../auth/login.html">Login</a></li>
-                <li><a href="../auth/register.html">Cadastro</a></li>
+                <!-- Home link pode ser mantido ou removido dependendo da preferência -->
+                <!-- <li><a href="../../index.html">Home</a></li> --> 
                 <li><a href="index.html" class="active">Dashboard</a></li>
                 <li><a href="../marketplace/index.html">Marketplace</a></li>
+                <!-- Adicionar link para adicionar produto aqui ou dentro do conteúdo -->
+                <li><a href="#" id="logout-link">Sair</a></li> <!-- Link de Logout Simulado -->
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -63,6 +64,14 @@
                     </div>
                 </div>
 
+                 <!-- Ações Rápidas -->
+                 <div class="actions-card summary-card"> <!-- Reusing summary-card style -->
+                    <div class="icon">➕</div>
+                    <h3>Ações Rápidas</h3>
+                    <a href="../marketplace/add-product.html" class="btn primary small" style="margin-top: 1rem;">Adicionar Produto ao Marketplace</a>
+                    <!-- Outros links de ação podem ser adicionados aqui -->
+                </div>
+
                 <!-- Previsão do Tempo -->
                 <div class="weather-widget">
                     <h2>Previsão do Tempo</h2>
@@ -96,5 +105,29 @@
     </footer>
 
     <script src="../../assets/js/weather.js" type="module"></script>
+    <script>
+        // Simulação de Logout
+        const logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                // Remover token de autenticação simulado
+                localStorage.removeItem('authToken'); 
+                alert('Você foi desconectado (simulação).');
+                // Redirecionar para a página de login
+                window.location.href = '../auth/login.html'; 
+            });
+        }
+
+        // Simulação de verificação de autenticação ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Você precisa estar logado para acessar o Dashboard.');
+                window.location.href = '../auth/login.html'; // Redireciona se não houver token
+            }
+            // Se houver token, a página carrega normalmente
+        });
+    </script>
 </body>
 </html>

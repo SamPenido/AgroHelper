@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Produto - AgroHelper</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <!-- Menu -->
+        <nav class="main-nav">
+            <div class="logo">
+                <a href="../../index.html">🌱 AgroHelper</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../auth/login.html">Login</a></li>
+                <li><a href="../auth/register.html">Cadastro</a></li>
+                <li><a href="../dashboard/index.html">Dashboard</a></li>
+                <li><a href="index.html" class="active">Marketplace</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="auth-container"> <!-- Reusing auth container style for forms -->
+            <h1>Adicionar Novo Produto ao Marketplace</h1>
+            
+            <form id="add-product-form">
+                <div class="form-group">
+                    <label for="product-title">Título do Produto</label>
+                    <input type="text" id="product-title" name="title" required placeholder="Ex: Milho Orgânico (Saca 60kg)">
+                </div>
+
+                <div class="form-group">
+                    <label for="product-description">Descrição</label>
+                    <textarea id="product-description" name="description" rows="4" required placeholder="Descreva seu produto, condições, etc."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-price">Preço (R$)</label>
+                    <input type="number" id="product-price" name="price" step="0.01" required placeholder="Ex: 120.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="product-category">Categoria</label>
+                    <select id="product-category" name="category" required>
+                        <option value="" disabled selected>Selecione uma categoria</option>
+                        <option value="grains">Grãos</option>
+                        <option value="fruits">Frutas</option>
+                        <option value="vegetables">Legumes</option>
+                        <option value="equipment">Equipamentos</option>
+                        <option value="services">Serviços</option>
+                        <option value="inputs">Insumos</option>
+                        <option value="other">Outros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-location">Localização (Cidade/Estado)</label>
+                    <input type="text" id="product-location" name="location" required placeholder="Ex: Belo Horizonte, MG">
+                </div>
+
+                <div class="form-group">
+                    <label for="product-image">Imagem Principal</label>
+                    <input type="file" id="product-image" name="image" accept="image/*">
+                    <small>Envie uma imagem clara do seu produto.</small>
+                </div>
+
+                <button type="submit" class="btn primary">Adicionar Produto</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>AgroHelper &copy; 2025</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Simulação de verificação de autenticação ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Você precisa estar logado para adicionar produtos.');
+                window.location.href = '../auth/login.html'; // Redireciona se não houver token
+            }
+        });
+
+        // Handler do formulário
+        document.getElementById('add-product-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission (page reload)
+
+            // Gather form data
+            const formData = new FormData(this);
+            const productData = {};
+            formData.forEach((value, key) => {
+                // Basic handling for file input (just get the name for now)
+                if (key === 'image' && value instanceof File) {
+                    productData[key] = value.name; 
+                } else {
+                    productData[key] = value;
+                }
+            });
+
+            // Log the data to the console (simulation of sending to backend)
+            console.log('Form submitted. Product Data:', productData);
+
+            // Optional: Display a success message to the user
+            alert('Produto adicionado (simulação)! Verifique o console para os dados.');
+
+            // Optional: Clear the form after submission
+            // this.reset(); 
+        });
+    </script>
+</body>
+</html>

@@ -43,7 +43,15 @@
                             <option value="fruits">Frutas</option>
                             <option value="vegetables">Legumes</option>
                             <option value="equipment">Equipamentos</option>
+                            <option value="services">Serviços</option>
+                            <option value="inputs">Insumos</option>
                         </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="price-range">Faixa de Preço</label>
+                        <input type="range" id="price-range" name="price-range" min="0" max="50000" step="100">
+                        <span id="price-value">R$ 25000</span> <!-- Example value display -->
                     </div>
                     
                     <div class="filter-group">
@@ -56,25 +64,58 @@
 
                 <!-- Listagem de Produtos -->
                 <div class="product-list">
+                    <!-- Exemplo Produto 1 -->
                     <div class="product-card">
-                        <img src="../../assets/images/placeholder.jpg" alt="Produto">
+                        <img src="../../assets/images/milho.jpg" alt="Milho Orgânico"> <!-- Placeholder image path -->
                         <div class="product-info">
-                            <h3>Milho Orgânico</h3>
-                            <p class="price">R$ 120,00/saca</p>
-                            <p class="location">Minas Gerais</p>
-                            <button class="btn secondary">Ver Detalhes</button>
+                            <h3>Milho Orgânico (Saca 60kg)</h3>
+                            <p class="description">Milho de alta qualidade, cultivado sem agrotóxicos.</p>
+                            <p class="price">R$ 120,00 / saca</p>
+                            <p class="location"><small>Vendido por: Fazenda Sol Nascente</small></p>
+                            <p class="location">📍 Minas Gerais</p>
+                            <a href="product-detail.html?id=1" class="btn secondary">Ver Detalhes</a> <!-- Link para detalhe -->
                         </div>
                     </div>
 
+                    <!-- Exemplo Produto 2 -->
                     <div class="product-card">
-                        <img src="../../assets/images/placeholder.jpg" alt="Produto">
+                        <img src="../../assets/images/trator.jpg" alt="Trator Usado"> <!-- Placeholder image path -->
                         <div class="product-info">
-                            <h3>Trator Usado</h3>
+                            <h3>Trator Agrícola Usado MF 275</h3>
+                            <p class="description">Trator em bom estado, revisado, ano 2010.</p>
                             <p class="price">R$ 45.000,00</p>
-                            <p class="location">São Paulo</p>
-                            <button class="btn secondary">Ver Detalhes</button>
+                            <p class="location"><small>Vendido por: AgroEquipamentos SP</small></p>
+                            <p class="location">📍 São Paulo</p>
+                            <a href="product-detail.html?id=2" class="btn secondary">Ver Detalhes</a> <!-- Link para detalhe -->
                         </div>
                     </div>
+
+                    <!-- Exemplo Produto 3 -->
+                    <div class="product-card">
+                        <img src="../../assets/images/laranja.jpg" alt="Laranja Pera Orgânica"> <!-- Placeholder image path -->
+                        <div class="product-info">
+                            <h3>Laranja Pera Orgânica (Caixa 20kg)</h3>
+                            <p class="description">Laranjas frescas e suculentas, certificadas.</p>
+                            <p class="price">R$ 50,00 / caixa</p>
+                            <p class="location"><small>Vendido por: Sítio Boa Esperança</small></p>
+                            <p class="location">📍 Bahia</p>
+                            <a href="product-detail.html?id=3" class="btn secondary">Ver Detalhes</a> <!-- Link para detalhe -->
+                        </div>
+                    </div>
+
+                     <!-- Exemplo Produto 4 -->
+                     <div class="product-card">
+                        <img src="../../assets/images/consultoria.jpg" alt="Consultoria Agrícola"> <!-- Placeholder image path -->
+                        <div class="product-info">
+                            <h3>Consultoria Agrícola Especializada</h3>
+                            <p class="description">Análise de solo, planejamento de safra e manejo integrado.</p>
+                            <p class="price">R$ 300,00 / hora</p>
+                            <p class="location"><small>Oferecido por: AgroConsult</small></p>
+                            <p class="location">📍 Remoto / Nacional</p>
+                            <a href="product-detail.html?id=4" class="btn secondary">Ver Detalhes</a> <!-- Link para detalhe -->
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -83,5 +124,30 @@
     <footer>
         <p>AgroHelper &copy; 2025</p>
     </footer>
+
+    <script>
+        // Script for price range slider
+        const priceRange = document.getElementById('price-range');
+        const priceValue = document.getElementById('price-value');
+
+        if (priceRange && priceValue) {
+            // Update display initially
+            priceValue.textContent = `R$ ${parseInt(priceRange.value).toLocaleString('pt-BR')}`;
+
+            // Update display on change
+            priceRange.addEventListener('input', (event) => {
+                priceValue.textContent = `R$ ${parseInt(event.target.value).toLocaleString('pt-BR')}`;
+            });
+        }
+
+        // Simulação de verificação de autenticação ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Você precisa estar logado para acessar o Marketplace.');
+                window.location.href = '../auth/login.html'; // Redireciona se não houver token
+            }
+        });
+    </script>
 </body>
 </html>
