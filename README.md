@@ -1,66 +1,68 @@
-# 🌱 AgroHelper - Plataforma Inteligente para Agricultura 🚜  
+🌱 AgroHelper - Plataforma Inteligente para Agricultura 🚜
 
-O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios agricultores na **gestão de suas propriedades**, fornecendo **previsões climáticas, diagnóstico de pragas por IA, um chatbot agrícola e um marketplace para compra e venda de produtos agrícolas**.
+O AgroHelper é um sistema web projetado para auxiliar pequenos e médios agricultores na gestão de suas propriedades, fornecendo previsão climática inteligente, um chatbot agrícola e um marketplace para compra e venda de produtos agrícolas.
 
----
+📌 Tecnologias Utilizadas
 
-## 📌 Tecnologias Utilizadas  
+🖥️ Back-end
 
-### 🖥️ **Back-end**  
-- Java (Spring Boot)  
-- Spring Security + JWT (Autenticação)  
+Python (Django e Django REST Framework)
 
-### 🌍 **Front-end**  
-- HTML, CSS, JavaScript  
+Autenticação JWT
 
-### 📊 **Banco de Dados**  
-- PostgreSQL  
+🌍 Front-end
 
-### 🤖 **Inteligência Artificial & Automação**  
-- Python (Análise de Imagens e Previsões Climáticas)  
-- Chatbot para suporte agrícola  
+React.js + Vite
 
-### ☁️ **Infraestrutura & Hospedagem**  
-- AWS ou Heroku  
+TailwindCSS
 
----
+📊 Banco de Dados
 
-## 🚀 Funcionalidades Principais  
-✅ **Cadastro/Login** de usuários (Agricultores, Técnicos, Compradores)  
-✅ **Gestão de Propriedades Agrícolas** (Registro de terrenos e culturas)  
-✅ **Previsão Climática Inteligente**  
-✅ **Diagnóstico de Pragas via IA** (Análise de imagens)  
-✅ **Chatbot para suporte agrícola**  
-✅ **Marketplace** para compra e venda de produtos agrícolas  
-   - Filtros avançados por categoria e localização  
-   - Cards de produtos com informações detalhadas  
-   - Interface intuitiva e responsiva  
-   - Sistema de avaliação de vendedores (em desenvolvimento)  
-✅ **Relatórios de Produção e Custos**  
-   - Dados atualizados em tempo real  
-   - Integração com APIs de previsão e análise  
-   - Histórico de produtividade  
-   - Alertas inteligentes baseados em IA  
-✅ **Alertas Inteligentes** (Notificações sobre clima e pragas)  
+PostgreSQL
 
----
+🤖 Inteligência Artificial & Automação
 
-## 📂 Estrutura do Projeto  
+Python (Análise de dados climáticos)
 
-### 📌 Backend (Java + Spring Boot)
+Chatbot para suporte agrícola
+
+☁️ Infraestrutura & Hospedagem
+
+Railway / Render
+
+🚀 Funcionalidades Principais
+
+✅ Cadastro/Login de usuários (Agricultores, Técnicos, Compradores)✅ Gestão de Propriedades Agrícolas (Registro de terrenos e culturas)✅ Previsão Climática Inteligente✅ Chatbot para suporte agrícola✅ Marketplace para compra e venda de produtos agrícolas
+
+Filtros avançados por categoria e localização
+
+Cards de produtos com informações detalhadas
+
+Interface intuitiva e responsiva✅ Relatórios de Produção e Custos
+
+Dados atualizados em tempo real
+
+Integração com APIs de previsão climática
+
+Histórico de produtividade
+
+Alertas inteligentes✅ Alertas Inteligentes (Notificações sobre clima)
+
+📂 Estrutura do Projeto
+
+📌 Backend (Django REST Framework)
 ```
 agrohelper-backend/
-│── src/
-│   ├── main/java/com/agrohelper/
-│   │   ├── controllers/    # Controladores REST
-│   │   ├── models/         # Modelos das entidades do banco de dados
-│   │   ├── repositories/   # Interfaces para interação com o banco de dados
-│   │   ├── services/       # Lógica de negócio
-│   ├── resources/
-│   │   ├── application.properties  # Configurações do banco de dados
-│── pom.xml    # Dependências do Maven
-│── Dockerfile # Configuração para containerização
-│── README.md  # Documentação do projeto
+│── agrohelper/
+│   ├── settings.py    # Configurações do Django
+│   ├── urls.py        # Rotas principais
+│── api/
+│   ├── models.py      # Modelos de banco de dados
+│   ├── serializers.py # Serializadores para API
+│   ├── views.py       # Controladores
+│── manage.py          # Script de gerenciamento do Django
+│── requirements.txt   # Dependências do Python
+│── README.md          # Documentação do projeto
 ```
 
 ### 📌 Front-end (HTML, CSS e JavaScript)
@@ -94,67 +96,43 @@ agrohelper-frontend/
 
 ---
 
-## 🔍 Detalhes de Implementação Técnica
+🔍 Implementação Técnica
 
-### **1️⃣ Previsão Climática Inteligente** 🌦️
-#### ✅ **Como Fazer de Forma Simples?**
-* Utilizar APIs de previsão do tempo que já fornecem dados meteorológicos detalhados.
-* Podemos integrar modelos de **aprendizado de máquina** apenas se precisarmos de previsões personalizadas.
+1️⃣ Previsão Climática Inteligente 🌦️
 
-#### 🔧 **APIs Recomendadas:**
-* **OpenWeatherMap API** → Dados meteorológicos e previsões climáticas.
-* **Weatherstack API** → Informações meteorológicas em tempo real.
-* **NOAA API (EUA)** → Dados climáticos históricos e previsões.
+✅ Solução
 
-#### 🚀 **Passos:**
-1. Criar uma conta em uma dessas APIs e obter a chave de acesso.
-2. Fazer chamadas à API para obter previsão do tempo com base na localização da propriedade.
-3. Exibir os dados na interface do usuário.
+Utilizar APIs de previsão do tempo que fornecem dados meteorológicos detalhados sem necessidade de latitude/longitude.
 
-### **2️⃣ Diagnóstico de Pragas e Doenças via IA e Processamento de Imagens** 🐛
-#### ✅ **Como Fazer de Forma Simples?**
-* Utilizar um **modelo pré-treinado de IA** para identificar pragas em imagens.
-* Podemos usar **APIs de visão computacional** que já fazem análise de imagens.
+🔧 API Recomendada:
 
-#### 🔧 **APIs Recomendadas:**
-* **Google Cloud Vision API** → Analisa imagens e pode ser treinada para detectar pragas.
-* **Microsoft Azure Custom Vision** → Permite treinar um modelo específico para diagnóstico agrícola.
-* **Plant.id API** → Especializada na identificação de doenças em plantas.
+WeatherAPI (https://www.weatherapi.com/) → Permite buscar previsão do tempo informando apenas o nome da cidade ou código do país.
 
-#### 🚀 **Passos:**
-1. Capturar imagens das folhas e enviar para a API.
-2. A API retorna a identificação da praga e possíveis recomendações.
-3. Exibir os resultados no app para o usuário.
+🚀 Passos:
 
-### **3️⃣ Chatbot para Suporte Técnico** 🤖
-#### ✅ **Como Fazer de Forma Simples?**
-* Utilizar um **chatbot pronto** que pode ser treinado com perguntas e respostas específicas.
-* Integrar um bot baseado em **GPT-4** ou APIs de chatbots agrícolas.
+Criar uma conta gratuita na WeatherAPI e obter a chave de acesso.
 
-#### 🔧 **APIs Recomendadas:**
-* **OpenAI API (ChatGPT)** → Podemos configurar um chatbot agrícola.
-* **Dialogflow (Google)** → Plataforma para criar chatbots personalizados.
-* **Rasa (Open Source)** → Para um chatbot offline e mais customizável.
+Fazer chamadas para a API utilizando o nome da cidade.
 
-#### 🚀 **Passos:**
-1. Criar um banco de dados com perguntas frequentes sobre agricultura.
-2. Treinar um modelo de IA com esse banco de dados.
-3. Conectar o chatbot à interface do usuário via API.
+Exibir os dados na interface do usuário.
 
-### **4️⃣ Análise Preditiva de Produtividade** 🌾📊
-#### ✅ **Como Fazer de Forma Simples?**
-* Utilizar APIs de análise de dados agrícolas para prever produtividade.
-* Combinar dados climáticos, tipo de solo e histórico de produção.
+2️⃣ Chatbot para Suporte Técnico 🤖
 
-#### 🔧 **APIs Recomendadas:**
-* **Agro API (Agricultural Data)** → Fornece dados sobre colheitas, produtividade e clima.
-* **NASA Earthdata API** → Dados sobre condições do solo e mudanças climáticas.
-* **Google Earth Engine API** → Para análises agrícolas avançadas.
+✅ Solução
 
-#### 🚀 **Passos:**
-1. Coletar dados de clima, solo e produtividade passada via APIs.
-2. Utilizar algoritmos simples de regressão (ou APIs de IA) para prever produtividade.
-3. Exibir recomendações no painel do usuário.
+Utilizar um chatbot pronto que pode ser treinado com perguntas e respostas específicas.
+
+🔧 API Recomendada:
+
+OpenAI API (ChatGPT) → Podemos configurar um chatbot agrícola.
+
+🚀 Passos:
+
+Criar um banco de dados com perguntas frequentes sobre agricultura.
+
+Treinar um modelo de IA com esse banco de dados.
+
+Conectar o chatbot à interface do usuário via API.
 
 
 ## ⚡ Como Rodar o Projeto  
@@ -164,4 +142,17 @@ agrohelper-frontend/
 git clone https://github.com/SamPenido/agrohelper.git
 cd agrohelper
 ```
+2️⃣ Backend
 
+cd agrohelper-backend
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate    # Windows
+pip install -r requirements.txt
+python manage.py runserver
+
+3️⃣ Frontend
+
+cd agrohelper-frontend
+npm install
+npm run dev
