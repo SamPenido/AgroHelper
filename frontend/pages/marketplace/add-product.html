@@ -3,121 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Produto - AgroHelper</title>
+    <title>Cadastrar Produto - AgroHelper</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
 </head>
 <body>
     <header>
-        <!-- Menu -->
         <nav class="main-nav">
             <div class="logo">
                 <a href="../../index.html">🌱 AgroHelper</a>
             </div>
             <ul class="nav-links">
                 <li><a href="../../index.html">Home</a></li>
-                <li><a href="../auth/login.html">Login</a></li>
-                <li><a href="../auth/register.html">Cadastro</a></li>
-                <li><a href="../dashboard/index.html">Dashboard</a></li>
-                <li><a href="index.html" class="active">Marketplace</a></li>
+                <li><a href="index.html">Marketplace</a></li>
+                <li><a href="add-product.html" class="active">Vender</a></li>
+                <li><a href="#" id="user-name">Usuário</a></li>
+                <li><a href="#" id="logout-btn">Sair</a></li>
             </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
         </nav>
     </header>
 
     <main>
-        <section class="auth-container"> <!-- Reusing auth container style for forms -->
-            <h1>Adicionar Novo Produto ao Marketplace</h1>
-            
-            <form id="add-product-form">
-                <div class="form-group">
-                    <label for="product-title">Título do Produto</label>
-                    <input type="text" id="product-title" name="title" required placeholder="Ex: Milho Orgânico (Saca 60kg)">
-                </div>
+        <section class="auth-section">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h1>Cadastrar Produto</h1>
+                    <p>Anuncie seu produto no marketplace</p>
+                    
+                    <form id="product-form">
+                        <div class="form-group">
+                            <label for="title">Título do Produto *</label>
+                            <input type="text" id="title" name="title" required 
+                                   placeholder="Ex: Milho Orgânico (Saca 60kg)">
+                        </div>
 
-                <div class="form-group">
-                    <label for="product-description">Descrição</label>
-                    <textarea id="product-description" name="description" rows="4" required placeholder="Descreva seu produto, condições, etc."></textarea>
-                </div>
+                        <div class="form-group">
+                            <label for="description">Descrição *</label>
+                            <textarea id="description" name="description" required rows="4"
+                                      placeholder="Descreva seu produto detalhadamente..."></textarea>
+                        </div>
 
-                <div class="form-group">
-                    <label for="product-price">Preço (R$)</label>
-                    <input type="number" id="product-price" name="price" step="0.01" required placeholder="Ex: 120.00">
-                </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="price">Preço (R$) *</label>
+                                <input type="number" id="price" name="price" required step="0.01" min="0"
+                                       placeholder="0.00">
+                            </div>
 
-                <div class="form-group">
-                    <label for="product-category">Categoria</label>
-                    <select id="product-category" name="category" required>
-                        <option value="" disabled selected>Selecione uma categoria</option>
-                        <option value="grains">Grãos</option>
-                        <option value="fruits">Frutas</option>
-                        <option value="vegetables">Legumes</option>
-                        <option value="equipment">Equipamentos</option>
-                        <option value="services">Serviços</option>
-                        <option value="inputs">Insumos</option>
-                        <option value="other">Outros</option>
-                    </select>
-                </div>
+                            <div class="form-group">
+                                <label for="category">Categoria *</label>
+                                <select id="category" name="category" required>
+                                    <option value="">Selecione uma categoria</option>
+                                    <option value="GRAINS">🌾 Grãos</option>
+                                    <option value="FRUITS">🍎 Frutas</option>
+                                    <option value="VEGETABLES">🥕 Legumes</option>
+                                    <option value="EQUIPMENT">🚜 Equipamentos</option>
+                                    <option value="SERVICES">🛠️ Serviços</option>
+                                    <option value="INPUTS">🧪 Insumos</option>
+                                </select>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <label for="product-location">Localização (Cidade/Estado)</label>
-                    <input type="text" id="product-location" name="location" required placeholder="Ex: Belo Horizonte, MG">
-                </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="location">Localização</label>
+                                <input type="text" id="location" name="location" 
+                                       placeholder="Ex: São Paulo, SP">
+                            </div>
 
-                <div class="form-group">
-                    <label for="product-image">Imagem Principal</label>
-                    <input type="file" id="product-image" name="image" accept="image/*">
-                    <small>Envie uma imagem clara do seu produto.</small>
-                </div>
+                            <div class="form-group">
+                                <label for="sellerName">Nome do Vendedor *</label>
+                                <input type="text" id="sellerName" name="sellerName" required
+                                       placeholder="Seu nome ou empresa">
+                            </div>
+                        </div>
 
-                <button type="submit" class="btn primary">Adicionar Produto</button>
-            </form>
+                        <div class="form-group">
+                            <label for="imageUrl">URL da Imagem</label>
+                            <input type="url" id="imageUrl" name="imageUrl" 
+                                   placeholder="https://exemplo.com/imagem.jpg">
+                        </div>
+
+                        <button type="submit" class="btn primary full-width" id="submit-btn">
+                            Cadastrar Produto
+                        </button>
+                    </form>
+
+                    <div class="auth-links">
+                        <a href="index.html">← Voltar ao Marketplace</a>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer>
-        <p>AgroHelper &copy; 2025</p>
-    </footer>
-
-    <!-- Scripts -->
     <script>
-        /* // Simulação de verificação de autenticação ao carregar a página - TEMPORARIAMENTE DESABILITADO PARA APRESENTAÇÃO
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('authToken');
-            if (!token) {
-                alert('Você precisa estar logado para adicionar produtos.');
-                window.location.href = '../auth/login.html'; // Redireciona se não houver token
+        // Verificar se usuário está logado (simplificado)
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                try {
+                    const user = JSON.parse(userData);
+                    document.getElementById('user-name').textContent = user.fullName;
+                    document.getElementById('sellerName').value = user.fullName;
+                } catch (error) {
+                    console.error('Erro ao carregar dados do usuário:', error);
+                }
             }
-        });
-        */
 
-        // Handler do formulário
-        document.getElementById('add-product-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission (page reload)
-
-            // Gather form data
-            const formData = new FormData(this);
-            const productData = {};
-            formData.forEach((value, key) => {
-                // Basic handling for file input (just get the name for now)
-                if (key === 'image' && value instanceof File) {
-                    productData[key] = value.name; 
-                } else {
-                    productData[key] = value;
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Sair?')) {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userData');
+                    window.location.href = '../../index.html';
                 }
             });
+        });
 
-            // Log the data to the console (simulation of sending to backend)
-            console.log('Form submitted. Product Data:', productData);
+        // Enviar formulário
+        document.getElementById('product-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Cadastrando...';
+            
+            try {
+                const formData = new FormData(this);
+                const productData = {
+                    title: formData.get('title'),
+                    description: formData.get('description'),
+                    price: parseFloat(formData.get('price')),
+                    category: formData.get('category'),
+                    location: formData.get('location') || null,
+                    sellerName: formData.get('sellerName'),
+                    imageUrl: formData.get('imageUrl') || null
+                };
 
-            // Optional: Display a success message to the user
-            alert('Produto adicionado (simulação)! Verifique o console para os dados.');
+                console.log('Enviando produto:', productData);
 
-            // Optional: Clear the form after submission
-            // this.reset(); 
+                const response = await fetch('http://localhost:8080/api/v1/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('✅ Produto cadastrado com sucesso!');
+                    window.location.href = 'index.html';
+                } else {
+                    const error = await response.text();
+                    throw new Error('Erro na API: ' + error);
+                }
+
+            } catch (error) {
+                console.error('Erro ao cadastrar produto:', error);
+                alert('❌ Erro ao cadastrar produto: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Cadastrar Produto';
+            }
         });
     </script>
 </body>

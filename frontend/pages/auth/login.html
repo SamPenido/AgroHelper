@@ -16,8 +16,7 @@
                 <li><a href="../../index.html">Home</a></li>
                 <li><a href="login.html" class="active">Login</a></li>
                 <li><a href="register.html">Cadastro</a></li>
-                <li><a href="../dashboard/index.html">Dashboard</a></li>
-                <li><a href="../marketplace/index.html">Marketplace</a></li>
+
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -48,5 +47,69 @@
     <footer>
         <p>AgroHelper &copy; 2025</p>
     </footer>
+
+    <script>
+        // Configuração da API
+        const API_URL = 'http://localhost:8080/api/v1';
+        
+        // Função para fazer login
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Impede o envio padrão do formulário
+            
+            // Capturar dados do formulário
+            const formData = new FormData(this);
+            const loginData = {
+                email: formData.get('email'),
+                password: formData.get('password')
+            };
+            
+            console.log('Tentando fazer login:', loginData.email);
+            
+            try {
+                // Mostrar loading no botão
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Entrando...';
+                submitBtn.disabled = true;
+                
+                // Fazer requisição para a API
+                const response = await fetch(`${API_URL}/users/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Sucesso!
+                    alert('✅ Login realizado com sucesso!');
+                    console.log('Usuário logado:', result);
+                    
+                    // Salvar dados do usuário no localStorage
+                    localStorage.setItem('userData', JSON.stringify(result));
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    // Redirecionar para marketplace (página principal dos logados)
+                    window.location.href = '../marketplace/index.html';
+                } else {
+                    // Erro da API
+                    alert('❌ ' + result.error);
+                    console.error('Erro da API:', result);
+                }
+                
+            } catch (error) {
+                // Erro de conexão
+                console.error('Erro de conexão:', error);
+                alert('🔌 Erro de conexão com o servidor. Verifique se o backend está rodando.');
+            } finally {
+                // Restaurar botão
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>

@@ -13,11 +13,10 @@
                 <a href="../../index.html">🌱 AgroHelper</a>
             </div>
             <ul class="nav-links">
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../auth/login.html">Login</a></li>
-                <li><a href="../auth/register.html">Cadastro</a></li>
-                <li><a href="../dashboard/index.html">Dashboard</a></li>
                 <li><a href="index.html" class="active">Marketplace</a></li>
+                <li><a href="add-product.html">Vender</a></li>
+                <li><a href="#" id="user-name">Usuário</a></li>
+                <li><a href="#" id="logout-btn">Sair</a></li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -31,91 +30,74 @@
         <section class="marketplace-dashboard">
             <h1>Marketplace AgroHelper</h1>
             
-            <div class="marketplace-grid">
-                <!-- Filtros e Pesquisa -->
-                <aside class="filters">
-                    <h2>Filtros</h2>
-                    <div class="filter-group">
-                        <label for="category">Categoria</label>
-                        <select id="category">
-                            <option value="">Todas</option>
-                            <option value="grains">Grãos</option>
-                            <option value="fruits">Frutas</option>
-                            <option value="vegetables">Legumes</option>
-                            <option value="equipment">Equipamentos</option>
-                            <option value="services">Serviços</option>
-                            <option value="inputs">Insumos</option>
-                        </select>
+            <div class="marketplace-container">
+                <!-- Barra de Busca Superior -->
+                <div class="search-bar">
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="Buscar produtos, categorias..." />
+                        <button id="search-btn" class="btn primary">🔍 Buscar</button>
                     </div>
+                    <div class="quick-filters">
+                        <button class="filter-tag active" data-category="">Todos</button>
+                        <button class="filter-tag" data-category="GRAINS">🌾 Grãos</button>
+                        <button class="filter-tag" data-category="FRUITS">🍎 Frutas</button>
+                        <button class="filter-tag" data-category="VEGETABLES">🥕 Legumes</button>
+                        <button class="filter-tag" data-category="EQUIPMENT">🚜 Equipamentos</button>
+                        <button class="filter-tag" data-category="SERVICES">🛠️ Serviços</button>
+                        <button class="filter-tag" data-category="INPUTS">🧪 Insumos</button>
+                    </div>
+                </div>
 
-                    <div class="filter-group">
-                        <label for="price-range">Faixa de Preço</label>
-                        <input type="range" id="price-range" name="price-range" min="0" max="50000" step="100">
-                        <span id="price-value">R$ 25000</span> <!-- Example value display -->
+                <!-- Filtros Avançados (Expansível) -->
+                <div class="advanced-filters">
+                    <div class="filters-header" id="filters-toggle">
+                        <span>⚙️ Filtros Avançados</span>
+                        <span id="filters-arrow">▼</span>
                     </div>
-                    
-                    <div class="filter-group">
-                        <label for="location">Localização</label>
-                        <input type="text" id="location" placeholder="Digite sua região">
+                    <div class="filters-content" id="filters-content">
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="price-min">Preço Mínimo</label>
+                                <input type="number" id="price-min" placeholder="R$ 0" min="0" step="0.01">
+                            </div>
+                            <div class="filter-group">
+                                <label for="price-max">Preço Máximo</label>
+                                <input type="number" id="price-max" placeholder="R$ 999999" min="0" step="0.01">
+                            </div>
+                        </div>
+                        <div class="filter-row">
+                            <div class="filter-group">
+                                <label for="location-filter">Localização</label>
+                                <input type="text" id="location-filter" placeholder="Ex: São Paulo, MG">
+                            </div>
+                            <div class="filter-group">
+                                <label for="sort-by">Ordenar por</label>
+                                <select id="sort-by">
+                                    <option value="newest">Mais Recentes</option>
+                                    <option value="price-low">Menor Preço</option>
+                                    <option value="price-high">Maior Preço</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-actions">
+                            <button id="clear-filters" class="btn secondary">🗑️ Limpar</button>
+                            <button id="apply-filters" class="btn primary">✅ Aplicar Filtros</button>
+                        </div>
                     </div>
-                    
-                    <button class="btn primary">Aplicar Filtros</button>
-                </aside>
+                </div>
+
+                <!-- Resultados Info -->
+                <div class="results-info">
+                    <span id="results-count">Carregando produtos...</span>
+                    <span id="active-filters"></span>
+                </div>
 
                 <!-- Listagem de Produtos -->
-                <div class="product-list">
-                    <!-- Exemplo Produto 1 -->
-                    <div class="product-card">
-                        <img src="https://images.tcdn.com.br/img/img_prod/248016/1233_1_20161129091559.jpg" alt="Milho Orgânico"> <!-- Placeholder image path -->
-                        <div class="product-info">
-                            <h3>Milho Orgânico (Saca 60kg)</h3>
-                            <p class="description">Milho de alta qualidade, cultivado sem agrotóxicos.</p>
-                            <p class="price">R$ 120,00 / saca</p>
-                            <p class="location"><small>Vendido por: Fazenda Sol Nascente</small></p>
-                            <p class="location">📍 Minas Gerais</p>
-                            <a href="product-detail.html?id=1" class="btn secondary">Ver Detalhes</a> <!-- Link para detalhe -->
-                        </div>
+                <div class="product-list" id="product-list">
+                    <!-- Loading -->
+                    <div class="loading" id="loading">
+                        <p>🔄 Carregando produtos...</p>
                     </div>
-
-                    <!-- Exemplo Produto 2 -->
-                    <div class="product-card">
-                        <img src="https://i.ytimg.com/vi/l9g0LLmIuOc/maxresdefault.jpg" alt="Trator Usado"> <!-- Placeholder image path -->
-                        <div class="product-info">
-                            <h3>Trator Agrícola Usado MF 275</h3>
-                            <p class="description">Trator em bom estado, revisado, ano 2010.</p>
-                            <p class="price">R$ 45.000,00</p>
-                            <p class="location"><small>Vendido por: AgroEquipamentos SP</small></p>
-                            <p class="location">📍 São Paulo</p>
-                            <a href="product-detail.html?id=2" class="btn secondary">Ver Detalhes</a> <!-- Link para detalhe -->
-                        </div>
-                    </div>
-
-                    <!-- Exemplo Produto 3 -->
-                    <div class="product-card">
-                        <img src="https://s2-g1.glbimg.com/zyHeXZ6-Pcd50k4y715TcxRjhHI=/696x390/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2022/5/a/jq6pNUT22Zl2AmHAXAQA/laranja-packing-house-dsc00930-.jpg" alt="Laranja Pera Orgânica"> <!-- Placeholder image path -->
-                        <div class="product-info">
-                            <h3>Laranja Pera Orgânica (Caixa 20kg)</h3>
-                            <p class="description">Laranjas frescas e suculentas, certificadas.</p>
-                            <p class="price">R$ 50,00 / caixa</p>
-                            <p class="location"><small>Vendido por: Sítio Boa Esperança</small></p>
-                            <p class="location">📍 Bahia</p>
-                            <a href="product-detail.html?id=3" class="btn secondary">Ver Detalhes</a> <!-- Link para detalhe -->
-                        </div>
-                    </div>
-
-                     <!-- Exemplo Produto 4 -->
-                     <div class="product-card">
-                        <img src="https://www.siagri.com.br/wp-content/uploads/2021/04/medium-shot-man-with-tablet-scaled.jpg" alt="Consultoria Agrícola"> <!-- Placeholder image path -->
-                        <div class="product-info">
-                            <h3>Consultoria Agrícola Especializada</h3>
-                            <p class="description">Análise de solo, planejamento de safra e manejo integrado.</p>
-                            <p class="price">R$ 300,00 / hora</p>
-                            <p class="location"><small>Oferecido por: AgroConsult</small></p>
-                            <p class="location">📍 Remoto / Nacional</p>
-                            <a href="product-detail.html?id=4" class="btn secondary">Ver Detalhes</a> <!-- Link para detalhe -->
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </section>
@@ -126,28 +108,265 @@
     </footer>
 
     <script>
-        // Script for price range slider
-        const priceRange = document.getElementById('price-range');
-        const priceValue = document.getElementById('price-value');
+        console.log('=== MARKETPLACE PROFISSIONAL CARREGADO ===');
+        
+        // Configuração
+        const API_URL = 'http://localhost:8080/api/v1';
+        let produtos = [];
+        let filtrosAtivos = {
+            categoria: '',
+            busca: '',
+            precoMin: null,
+            precoMax: null,
+            localizacao: ''
+        };
 
-        if (priceRange && priceValue) {
-            // Update display initially
-            priceValue.textContent = `R$ ${parseInt(priceRange.value).toLocaleString('pt-BR')}`;
-
-            // Update display on change
-            priceRange.addEventListener('input', (event) => {
-                priceValue.textContent = `R$ ${parseInt(event.target.value).toLocaleString('pt-BR')}`;
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Iniciando marketplace...');
+            
+            // Verificar usuário logado (simplificado)
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                try {
+                    const result = JSON.parse(userData);
+                    const user = result.user; // Os dados do usuário estão dentro de result.user
+                    document.getElementById('user-name').textContent = `Olá, ${user.fullName}`;
+                } catch (error) {
+                    console.error('Erro ao carregar dados do usuário:', error);
+                    document.getElementById('user-name').textContent = 'Usuário';
+                }
+            } else {
+                document.getElementById('user-name').textContent = 'Entrar';
+            }
+            
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Tem certeza que deseja sair?')) {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userData');
+                    window.location.href = '../../index.html';
+                }
             });
+
+            // Event Listeners
+            configurarEventListeners();
+            
+            // Carregar produtos
+            carregarProdutos();
+        });
+
+        function configurarEventListeners() {
+            // Busca
+            document.getElementById('search-btn').addEventListener('click', realizarBusca);
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') realizarBusca();
+            });
+
+            // Filtros de categoria
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    filtrosAtivos.categoria = this.getAttribute('data-category');
+                    aplicarFiltros();
+                });
+            });
+
+            // Toggle filtros avançados
+            document.getElementById('filters-toggle').addEventListener('click', function() {
+                const content = document.getElementById('filters-content');
+                const arrow = document.getElementById('filters-arrow');
+                content.classList.toggle('expanded');
+                arrow.textContent = content.classList.contains('expanded') ? '▲' : '▼';
+            });
+
+            // Filtros avançados
+            document.getElementById('apply-filters').addEventListener('click', aplicarFiltrosAvancados);
+            document.getElementById('clear-filters').addEventListener('click', limparFiltros);
         }
 
-        /* // Simulação de verificação de autenticação ao carregar a página - TEMPORARIAMENTE DESABILITADO PARA APRESENTAÇÃO
-        document.addEventListener('DOMContentLoaded', () => {
-            const token = localStorage.getItem('authToken');
-            if (!token) {
-                alert('Você precisa estar logado para acessar o Marketplace.');
-                window.location.href = '../auth/login.html'; // Redireciona se não houver token
+        async function carregarProdutos() {
+            try {
+                mostrarLoading(true);
+                console.log('Buscando produtos da API...');
+                
+                const response = await fetch(`${API_URL}/products`);
+                if (!response.ok) throw new Error('API offline');
+                
+                produtos = await response.json();
+                console.log(`${produtos.length} produtos carregados`);
+                
+                exibirProdutos(produtos);
+                atualizarContador(produtos.length);
+                
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+                exibirErro('Erro ao carregar produtos. Verifique se o backend está rodando.');
+            } finally {
+                mostrarLoading(false);
             }
-        });
-        */
+        }
+
+        function realizarBusca() {
+            filtrosAtivos.busca = document.getElementById('search-input').value.trim();
+            aplicarFiltros();
+        }
+
+        function aplicarFiltrosAvancados() {
+            filtrosAtivos.precoMin = document.getElementById('price-min').value || null;
+            filtrosAtivos.precoMax = document.getElementById('price-max').value || null;
+            filtrosAtivos.localizacao = document.getElementById('location-filter').value.trim();
+            aplicarFiltros();
+        }
+
+        function aplicarFiltros() {
+            let produtosFiltrados = [...produtos];
+
+            // Filtro por categoria
+            if (filtrosAtivos.categoria) {
+                produtosFiltrados = produtosFiltrados.filter(p => p.category === filtrosAtivos.categoria);
+            }
+
+            // Filtro por busca
+            if (filtrosAtivos.busca) {
+                produtosFiltrados = produtosFiltrados.filter(p => 
+                    p.title.toLowerCase().includes(filtrosAtivos.busca.toLowerCase()) ||
+                    p.description.toLowerCase().includes(filtrosAtivos.busca.toLowerCase())
+                );
+            }
+
+            // Filtro por preço
+            if (filtrosAtivos.precoMin) {
+                produtosFiltrados = produtosFiltrados.filter(p => p.price >= parseFloat(filtrosAtivos.precoMin));
+            }
+            if (filtrosAtivos.precoMax) {
+                produtosFiltrados = produtosFiltrados.filter(p => p.price <= parseFloat(filtrosAtivos.precoMax));
+            }
+
+            // Filtro por localização
+            if (filtrosAtivos.localizacao) {
+                produtosFiltrados = produtosFiltrados.filter(p => 
+                    p.location && p.location.toLowerCase().includes(filtrosAtivos.localizacao.toLowerCase())
+                );
+            }
+
+            exibirProdutos(produtosFiltrados);
+            atualizarContador(produtosFiltrados.length);
+            atualizarFiltrosAtivos();
+        }
+
+        function limparFiltros() {
+            filtrosAtivos = {
+                categoria: '',
+                busca: '',
+                precoMin: null,
+                precoMax: null,
+                localizacao: ''
+            };
+            
+            document.getElementById('search-input').value = '';
+            document.getElementById('price-min').value = '';
+            document.getElementById('price-max').value = '';
+            document.getElementById('location-filter').value = '';
+            
+            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+            document.querySelector('.filter-tag[data-category=""]').classList.add('active');
+            
+            exibirProdutos(produtos);
+            atualizarContador(produtos.length);
+            atualizarFiltrosAtivos();
+        }
+
+        function exibirProdutos(listaProdutos) {
+            const container = document.getElementById('product-list');
+            
+            if (listaProdutos.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <p>🔍 Nenhum produto encontrado com os filtros aplicados.</p>
+                        <button onclick="limparFiltros()" class="btn secondary">Limpar Filtros</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = listaProdutos.map(produto => `
+                <div class="product-card">
+                    <img src="${produto.imageUrl || 'https://via.placeholder.com/300x220?text=Sem+Imagem'}" 
+                         alt="${produto.title}"
+                         onerror="this.src='https://via.placeholder.com/300x220?text=Sem+Imagem'">
+                    <div class="product-info">
+                        <h3>${produto.title}</h3>
+                        <p class="description">${produto.description}</p>
+                        <p class="price">R$ ${formatarPreco(produto.price)}</p>
+                        <p class="location">
+                            <small>📍 ${produto.location || 'Localização não informada'}</small>
+                        </p>
+                        <p class="location">
+                            <small>👤 ${produto.sellerName}</small>
+                        </p>
+                        <a href="product-detail.html?id=${produto.id}" class="btn secondary">Ver Detalhes</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function mostrarLoading(mostrar) {
+            const loading = document.getElementById('loading');
+            loading.style.display = mostrar ? 'block' : 'none';
+        }
+
+        function exibirErro(mensagem) {
+            const container = document.getElementById('product-list');
+            container.innerHTML = `
+                <div class="loading">
+                    <p>❌ ${mensagem}</p>
+                    <button onclick="carregarProdutos()" class="btn primary">Tentar Novamente</button>
+                </div>
+            `;
+        }
+
+        function formatarPreco(preco) {
+            return new Intl.NumberFormat('pt-BR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(preco);
+        }
+
+        function atualizarContador(quantidade) {
+            document.getElementById('results-count').textContent = 
+                `${quantidade} produto${quantidade !== 1 ? 's' : ''} encontrado${quantidade !== 1 ? 's' : ''}`;
+        }
+
+        function atualizarFiltrosAtivos() {
+            const filtrosTexto = [];
+            
+            if (filtrosAtivos.busca) filtrosTexto.push(`"${filtrosAtivos.busca}"`);
+            if (filtrosAtivos.categoria) filtrosTexto.push(`Categoria: ${obterNomeCategoria(filtrosAtivos.categoria)}`);
+            if (filtrosAtivos.precoMin || filtrosAtivos.precoMax) {
+                const min = filtrosAtivos.precoMin || '0';
+                const max = filtrosAtivos.precoMax || '∞';
+                filtrosTexto.push(`Preço: R$ ${min} - R$ ${max}`);
+            }
+            if (filtrosAtivos.localizacao) filtrosTexto.push(`Local: ${filtrosAtivos.localizacao}`);
+            
+            const texto = filtrosTexto.length > 0 ? `Filtros ativos: ${filtrosTexto.join(', ')}` : '';
+            document.getElementById('active-filters').textContent = texto;
+        }
+
+        function obterNomeCategoria(categoria) {
+            const nomes = {
+                'GRAINS': 'Grãos',
+                'FRUITS': 'Frutas', 
+                'VEGETABLES': 'Legumes',
+                'EQUIPMENT': 'Equipamentos',
+                'SERVICES': 'Serviços',
+                'INPUTS': 'Insumos'
+            };
+            return nomes[categoria] || categoria;
+        }
     </script>
 </body>
+</html>
