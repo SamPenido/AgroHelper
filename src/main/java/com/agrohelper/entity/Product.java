@@ -7,9 +7,11 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Entidade Product - Projeto Acadêmico Simplificado
+ * Entidade Product - Projeto Acadêmico
  */
 @Entity
 @Table(name = "products")
@@ -54,6 +56,15 @@ public class Product {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+    
+    @Column(name = "average_rating", precision = 3, scale = 2)
+    private BigDecimal averageRating;
+    
+    @Column(name = "review_count")
+    private Integer reviewCount;
+    
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
     // Enum para categorias
     public enum ProductCategory {
@@ -78,6 +89,8 @@ public class Product {
     // Construtores
     public Product() {
         this.createdAt = LocalDateTime.now();
+        this.averageRating = BigDecimal.ZERO;
+        this.reviewCount = 0;
     }
 
     public Product(String title, String description, BigDecimal price, ProductCategory category, String sellerName, User user) {
@@ -176,6 +189,65 @@ public class Product {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+    
+    public BigDecimal getAverageRating() {
+        return averageRating;
+    }
+    
+    public void setAverageRating(BigDecimal averageRating) {
+        this.averageRating = averageRating;
+    }
+    
+    public Integer getReviewCount() {
+        return reviewCount;
+    }
+    
+    public void setReviewCount(Integer reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+    
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+    
+    // Método para adicionar uma nova avaliação e atualizar a média
+    public void addReview(Review review) {
+        if (!this.reviews.contains(review)) {
+            this.reviews.add(review);
+            review.setProduct(this);
+            updateAverageRating();
+        }
+    }
+    
+    // Método para remover uma avaliação e atualizar a média
+    public void removeReview(Review review) {
+        if (this.reviews.contains(review)) {
+            this.reviews.remove(review);
+            review.setProduct(null);
+            updateAverageRating();
+        }
+    }
+    
+    // Método para atualizar a média de avaliações
+    public void updateAverageRating() {
+        if (this.reviews.isEmpty()) {
+            this.averageRating = BigDecimal.ZERO;
+            this.reviewCount = 0;
+            return;
+        }
+        
+        int sum = 0;
+        for (Review review : this.reviews) {
+            sum += review.getRating();
+        }
+        
+        this.reviewCount = this.reviews.size();
+        this.averageRating = new BigDecimal(sum).divide(new BigDecimal(this.reviewCount), 2, BigDecimal.ROUND_HALF_UP);
+    }
 
     @Override
     public String toString() {
@@ -187,6 +259,8 @@ public class Product {
                 ", location='" + location + '\'' +
                 ", sellerName='" + sellerName + '\'' +
                 ", userId=" + (user != null ? user.getFormattedId() : null) +
+                ", averageRating=" + averageRating +
+                ", reviewCount=" + reviewCount +
                 '}';
     }
 }

@@ -5,6 +5,7 @@ import com.agrohelper.controller.UserController;
 import com.agrohelper.entity.Product;
 import com.agrohelper.entity.Product.ProductCategory;
 import com.agrohelper.entity.User;
+import com.agrohelper.entity.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +38,15 @@ public class FlowTest implements CommandLineRunner {
         
         try {
             // 1. Criar usuário (simulando requisição do frontend)
-            logger.info("1. Criando novo usuário (CONTROLLER)");
+            logger.info("1. Criando novo usuário vendedor (CONTROLLER)");
             User newUser = new User();
             newUser.setEmail("teste_flow@agrohelper.com");
             newUser.setPassword("senha123");
             newUser.setFullName("Usuário de Teste");
+            // Definir como SELLER para poder criar produtos
+            newUser.setUserType(UserType.SELLER);
             
-            ResponseEntity<Map<String, Object>> registerResponse = userController.register(newUser);
+            ResponseEntity<Map<String, Object>> registerResponse = userController.register(newUser, UserType.SELLER);
             
             if (!registerResponse.getStatusCode().is2xxSuccessful()) {
                 logger.error("Erro ao registrar usuário: {}", registerResponse.getBody());
@@ -53,7 +56,7 @@ public class FlowTest implements CommandLineRunner {
             Map<String, Object> userData = (Map<String, Object>) registerResponse.getBody().get("user");
             Long userId = ((Number) userData.get("numericId")).longValue();
             
-            logger.info("Usuário criado com sucesso! ID: {}", userId);
+            logger.info("Usuário vendedor criado com sucesso! ID: {}", userId);
             
             // 2. Criar produto associado ao usuário (simulando requisição do frontend)
             logger.info("2. Criando novo produto (CONTROLLER)");
@@ -105,12 +108,30 @@ public class FlowTest implements CommandLineRunner {
             
             logger.info("Login realizado com sucesso!");
             
+            // 5. Criar usuário comprador para testar avaliações
+            logger.info("5. Criando usuário comprador para testar avaliações");
+            User buyerUser = new User();
+            buyerUser.setEmail("comprador_teste@agrohelper.com");
+            buyerUser.setPassword("senha123");
+            buyerUser.setFullName("Comprador de Teste");
+            buyerUser.setUserType(UserType.BUYER);
+            
+            ResponseEntity<Map<String, Object>> buyerRegisterResponse = userController.register(buyerUser, UserType.BUYER);
+            
+            if (!buyerRegisterResponse.getStatusCode().is2xxSuccessful()) {
+                logger.error("Erro ao registrar usuário comprador: {}", buyerRegisterResponse.getBody());
+                return;
+            }
+            
+            logger.info("Usuário comprador criado com sucesso!");
+            
             logger.info("====== TESTE DE FLUXO COMPLETO FINALIZADO COM SUCESSO ======");
             logger.info("✅ Todas as camadas estão funcionando corretamente:");
             logger.info("   Frontend -> Controller -> Service -> DAO -> Database");
             
         } catch (Exception e) {
             logger.error("Erro durante o teste de fluxo completo", e);
+            e.printStackTrace();
         }
     }
 }

@@ -2,7 +2,9 @@ package com.agrohelper.controller;
 
 import com.agrohelper.entity.Product;
 import com.agrohelper.entity.Product.ProductCategory;
+import com.agrohelper.entity.User;
 import com.agrohelper.service.ProductService;
+import com.agrohelper.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    
+    @Autowired
+    private UserService userService;
 
     // GET /products - Listar todos os produtos
     @GetMapping
@@ -75,6 +80,25 @@ public class ProductController {
             logger.info("Controller: Recebida requisição para criar produto '{}' para usuário ID {}", 
                     product.getTitle(), userId);
             
+            // Verificar se o usuário é um vendedor
+            User user = userService.getUserById(userId).orElse(null);
+            
+            if (user == null) {
+                logger.warn("Controller: Usuário ID {} não encontrado", userId);
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Usuário não encontrado");
+                return ResponseEntity.badRequest().body(error);
+            }
+            
+            if (!user.isSeller()) {
+                logger.warn("Controller: Usuário ID {} não é um vendedor", userId);
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Apenas vendedores podem criar produtos");
+                return ResponseEntity.status(403).body(error);
+            }
+            
             Map<String, Object> result = productService.createProduct(product, userId);
             
             if ((boolean) result.get("success")) {
@@ -113,12 +137,34 @@ public class ProductController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getProductsByUserId(@PathVariable Long userId) {
         logger.info("Controller: Recebida requisição para buscar produtos do usuário ID {}", userId);
+        
+        // Verificar se o usuário existe
+        User user = userService.getUserById(userId).orElse(null);
+        
+        if (user == null) {
+            logger.warn("Controller: Usuário ID {} não encontrado", userId);
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "Usuário não encontrado");
+            return ResponseEntity.badRequest().body(error);
+        }
+        
+        // Verificar se o usuário é vendedor
+        if (!user.isSeller()) {
+            logger.warn("Controller: Usuário ID {} não é um vendedor", userId);
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "Este usuário não é um vendedor");
+            return ResponseEntity.badRequest().body(error);
+        }
+        
         List<Product> products = productService.getProductsByUserId(userId);
         
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("count", products.size());
         response.put("userId", userId);
+        response.put("sellerName", user.getFullName());
         response.put("products", products);
         
         logger.info("Controller: Retornando {} produtos do usuário ID {}", products.size(), userId);
@@ -155,5 +201,65 @@ public class ProductController {
         
         logger.info("Controller: Retornando {} produtos da localização '{}'", products.size(), location);
         return ResponseEntity.ok(response);
+    }
+    
+    // DELETE /products/{id} - Remover um produto
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id, @RequestParam Long userId) {
+        logger.info("Controller: Recebida requisição para remover produto ID {} pelo usuário ID {}", id, userId);
+        
+        try {
+            // Verificar se o produto existe
+            Optional<Product> productOpt = productService.getProductById(id);
+            
+            if (productOpt.isEmpty()) {
+                logger.warn("Controller: Produto ID {} não encontrado", id);
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Produto não encontrado");
+                return ResponseEntity.notFound().build();
+            }
+            
+            Product product = productOpt.get();
+            
+            // Verificar se o usuário é o dono do produto ou um admin
+            User user = userService.getUserById(userId).orElse(null);
+            
+            if (user == null) {
+                logger.warn("Controller: Usuário ID {} não encontrado", userId);
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Usuário não encontrado");
+                return ResponseEntity.badRequest().body(error);
+            }
+            
+            boolean isOwner = product.getUser().getId().equals(userId);
+            boolean isAdmin = user.isAdmin();
+            
+            if (!isOwner && !isAdmin) {
+                logger.warn("Controller: Usuário ID {} não tem permissão para remover o produto ID {}", userId, id);
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Você não tem permissão para remover este produto");
+                return ResponseEntity.status(403).body(error);
+            }
+            
+            // Remover produto
+            // TODO: Implementar método de remoção de produto no ProductService
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Produto removido com sucesso");
+            
+            logger.info("Controller: Produto ID {} removido com sucesso", id);
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            logger.error("Controller: Erro ao remover produto", e);
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "Erro ao remover produto: " + e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 }

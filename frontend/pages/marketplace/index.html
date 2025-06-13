@@ -18,11 +18,12 @@
                 <li><a href="#" id="user-name">Usuário</a></li>
                 <li><a href="#" id="logout-btn">Sair</a></li>
             </ul>
-            <div class="hamburger">
+            <div class="hamburger" id="hamburger-menu">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
+            <div class="overlay" id="menu-overlay"></div>
         </nav>
     </header>
 
@@ -134,6 +135,18 @@
                     const result = JSON.parse(userData);
                     const user = result.user; // Os dados do usuário estão dentro de result.user
                     document.getElementById('user-name').textContent = `Olá, ${user.fullName}`;
+                    
+                    // Verifica o tipo de usuário e esconde o botão "Vender" se for BUYER
+                    if (user.userType === 'BUYER') {
+                        const venderLink = document.querySelector('a[href="add-product.html"]');
+                        if (venderLink) {
+                            venderLink.parentElement.style.display = 'none';
+                        }
+                        console.log('Usuário é BUYER, ocultando opção de vender');
+                    } else {
+                        console.log('Usuário é SELLER ou ADMIN, mantendo opção de vender');
+                    }
+                    
                 } catch (error) {
                     console.error('Erro ao carregar dados do usuário:', error);
                     document.getElementById('user-name').textContent = 'Usuário';
@@ -141,6 +154,31 @@
             } else {
                 document.getElementById('user-name').textContent = 'Entrar';
             }
+            
+            // Controle do menu mobile
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.querySelector('.nav-links');
+            const overlay = document.getElementById('menu-overlay');
+            const body = document.body;
+            
+            function toggleMenu() {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                overlay.classList.toggle('active');
+                body.classList.toggle('menu-open');
+            }
+            
+            hamburger.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+            
+            // Fecha o menu ao clicar em um link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
             
             // Logout
             document.getElementById('logout-btn').addEventListener('click', function(e) {
@@ -318,9 +356,11 @@
             
             if (listaProdutos.length === 0) {
                 container.innerHTML = `
-                    <div class="loading">
-                        <p>🔍 Nenhum produto encontrado com os filtros aplicados.</p>
-                        <button onclick="limparFiltros()" class="btn secondary">Limpar Filtros</button>
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>Nenhum produto encontrado</h3>
+                        <p>Não encontramos produtos que correspondem aos filtros aplicados.</p>
+                        <button onclick="limparFiltros()" class="btn primary">Limpar Filtros</button>
                     </div>
                 `;
                 return;
@@ -328,6 +368,7 @@
             
             container.innerHTML = listaProdutos.map(produto => `
                 <div class="product-card">
+                    <div class="product-category-badge">${obterNomeCategoria(produto.category)}</div>
                     <img src="${produto.imageUrl || 'https://via.placeholder.com/300x220?text=Sem+Imagem'}" 
                          alt="${produto.title}"
                          onerror="this.src='https://via.placeholder.com/300x220?text=Sem+Imagem'">
@@ -335,13 +376,15 @@
                         <h3>${produto.title}</h3>
                         <p class="description">${produto.description}</p>
                         <p class="price">R$ ${formatarPreco(produto.price)}</p>
-                        <p class="location">
-                            <small>📍 ${produto.location || 'Localização não informada'}</small>
-                        </p>
-                        <p class="location">
-                            <small>👤 ${produto.sellerName}</small>
-                        </p>
-                        <a href="product-detail.html?id=${produto.id}" class="btn secondary">Ver Detalhes</a>
+                        <div class="product-meta">
+                            <p class="location">
+                                ${produto.location || 'Localização não informada'}
+                            </p>
+                            <p class="seller">
+                                ${produto.sellerName}
+                            </p>
+                        </div>
+                        <a href="product-detail.html?id=${produto.id}" class="btn primary">Ver Detalhes</a>
                     </div>
                 </div>
             `).join('');

@@ -3,12 +3,14 @@ package com.agrohelper.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
 /**
- * Entidade User - Projeto Acadêmico Simplificado
+ * Entidade User - Projeto Acadêmico
+ * Implementa tipos de usuário: BUYER, SELLER, ADMIN
  */
 @Entity
 @Table(name = "users")
@@ -34,6 +36,11 @@ public class User {
     @Size(min = 2, max = 100, message = "Nome deve ter entre 2 e 100 caracteres")
     @Column(name = "full_name", nullable = false)
     private String fullName;
+    
+    @NotNull(message = "Tipo de usuário é obrigatório")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_type", nullable = false)
+    private UserType userType;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -41,6 +48,7 @@ public class User {
     // Construtores
     public User() {
         this.createdAt = LocalDateTime.now();
+        this.userType = UserType.BUYER; // Default: Comprador
     }
 
     public User(String email, String password, String fullName) {
@@ -48,6 +56,11 @@ public class User {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
+    }
+    
+    public User(String email, String password, String fullName, UserType userType) {
+        this(email, password, fullName);
+        this.userType = userType;
     }
 
     // Getters e Setters
@@ -88,6 +101,27 @@ public class User {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+    
+    public UserType getUserType() {
+        return userType;
+    }
+    
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+    
+    // Métodos de verificação de permissões
+    public boolean isSeller() {
+        return this.userType == UserType.SELLER;
+    }
+    
+    public boolean isBuyer() {
+        return this.userType == UserType.BUYER;
+    }
+    
+    public boolean isAdmin() {
+        return this.userType == UserType.ADMIN;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -103,6 +137,7 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", fullName='" + fullName + '\'' +
+                ", userType=" + userType +
                 ", createdAt=" + createdAt +
                 '}';
     }
