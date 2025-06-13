@@ -2,114 +2,88 @@ package com.agrohelper.dao.impl;
 
 import com.agrohelper.dao.ProductDAO;
 import com.agrohelper.entity.Product;
+import com.agrohelper.entity.Product.ProductCategory;
 import com.agrohelper.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementação DAO para acesso a dados de produtos
- * Utiliza o JpaRepository como fonte de dados
+ * Implementação do DAO para acesso aos dados de produtos
  */
 @Repository
 public class ProductDAOImpl implements ProductDAO {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(ProductDAOImpl.class);
     
+    private final ProductRepository productRepository;
+
     @Autowired
-    private ProductRepository productRepository;
-    
-    @Override
-    public List<Product> findAll() {
-        logger.info("DAO: Buscando todos os produtos no banco de dados");
-        List<Product> products = productRepository.findAll();
-        logger.info("DAO: {} produtos recuperados do banco de dados", products.size());
-        return products;
+    public ProductDAOImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
-    
-    @Override
-    public Optional<Product> findById(Long id) {
-        logger.info("DAO: Buscando produto com ID {} no banco de dados", id);
-        Optional<Product> product = productRepository.findById(id);
-        
-        if (product.isPresent()) {
-            logger.info("DAO: Produto encontrado no banco: ID={}, Título={}", 
-                    id, product.get().getTitle());
-        } else {
-            logger.info("DAO: Produto com ID {} não encontrado no banco de dados", id);
-        }
-        
-        return product;
-    }
-    
+
     @Override
     public Product save(Product product) {
-        if (product.getId() == null) {
-            logger.info("DAO: Inserindo novo produto no banco de dados: {}", product.getTitle());
-        } else {
-            logger.info("DAO: Atualizando produto no banco de dados: ID={}, Título={}", 
-                    product.getId(), product.getTitle());
-        }
-        
-        Product savedProduct = productRepository.save(product);
-        logger.info("DAO: Produto salvo com sucesso no banco de dados. ID gerado: {}", 
-                savedProduct.getId());
-        
-        return savedProduct;
+        logger.info("DAO: Salvando produto: {}", product.getTitle());
+        return productRepository.save(product);
     }
-    
+
     @Override
-    public boolean existsById(Long id) {
-        logger.info("DAO: Verificando existência do produto com ID {} no banco de dados", id);
-        boolean exists = productRepository.existsById(id);
+    public Optional<Product> findById(Long id) {
+        logger.info("DAO: Buscando produto com ID: {}", id);
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        logger.info("DAO: Buscando todos os produtos");
+        return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> findByUserId(Long userId) {
+        logger.info("DAO: Buscando produtos do usuário ID: {}", userId);
+        return productRepository.findByUserIdOrderByCreatedAtDesc(userId);
+    }
+
+    @Override
+    public List<Product> findByCategory(ProductCategory category) {
+        logger.info("DAO: Buscando produtos da categoria: {}", category);
+        return productRepository.findByCategory(category);
+    }
+
+    @Override
+    public List<Product> findByTitleContainingOrDescriptionContaining(String titleTerm, String descriptionTerm) {
+        logger.info("DAO: Buscando produtos com termo de pesquisa: {}", titleTerm);
+        List<Product> titleResults = productRepository.findByTitleContainingIgnoreCase(titleTerm);
+        List<Product> descriptionResults = productRepository.findByDescriptionContainingIgnoreCase(descriptionTerm);
         
-        if (exists) {
-            logger.info("DAO: Produto com ID {} existe no banco de dados", id);
-        } else {
-            logger.info("DAO: Produto com ID {} não existe no banco de dados", id);
+        // Combinar resultados sem duplicação
+        List<Product> combinedResults = new ArrayList<>(titleResults);
+        for (Product product : descriptionResults) {
+            if (!combinedResults.contains(product)) {
+                combinedResults.add(product);
+            }
         }
         
-        return exists;
+        return combinedResults;
     }
-    
+
+    @Override
+    public List<Product> findByLocationContaining(String location) {
+        logger.info("DAO: Buscando produtos da localização: {}", location);
+        return productRepository.findByLocationContainingIgnoreCase(location);
+    }
+
     @Override
     public void deleteById(Long id) {
-        logger.info("DAO: Removendo produto com ID {} do banco de dados", id);
+        logger.info("DAO: Removendo produto com ID: {}", id);
         productRepository.deleteById(id);
-        logger.info("DAO: Produto com ID {} removido do banco de dados", id);
-    }
-    
-    @Override
-    public List<Product> findByCategory(Product.ProductCategory category) {
-        logger.info("DAO: Buscando produtos da categoria {} no banco de dados", category);
-        List<Product> products = productRepository.findByCategory(category);
-        logger.info("DAO: {} produtos da categoria {} encontrados no banco de dados", 
-                products.size(), category);
-        
-        return products;
-    }
-    
-    @Override
-    public List<Product> findByTitleContainingIgnoreCase(String title) {
-        logger.info("DAO: Buscando produtos com título contendo '{}' no banco de dados", title);
-        List<Product> products = productRepository.findByTitleContainingIgnoreCase(title);
-        logger.info("DAO: {} produtos encontrados no banco de dados com título contendo '{}'", 
-                products.size(), title);
-        
-        return products;
-    }
-    
-    @Override
-    public List<Product> findByUserIdOrderByCreatedAtDesc(Long userId) {
-        logger.info("DAO: Buscando produtos do usuário ID {} no banco de dados", userId);
-        List<Product> products = productRepository.findByUserIdOrderByCreatedAtDesc(userId);
-        logger.info("DAO: {} produtos do usuário ID {} encontrados no banco de dados", 
-                products.size(), userId);
-        
-        return products;
     }
 }

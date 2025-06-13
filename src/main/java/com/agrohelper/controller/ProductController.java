@@ -1,6 +1,7 @@
 package com.agrohelper.controller;
 
 import com.agrohelper.entity.Product;
+import com.agrohelper.entity.Product.ProductCategory;
 import com.agrohelper.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Controller para Product - Projeto Acadêmico Simplificado
+ * Controller para Product - Projeto Acadêmico Refatorado
+ * Implementa o padrão de camadas Controller -> Service -> DAO -> Repository
  */
 @RestController
 @RequestMapping("/products")
@@ -31,8 +33,14 @@ public class ProductController {
     public ResponseEntity<?> getAllProducts() {
         try {
             logger.info("Controller: Recebida requisição para listar todos os produtos");
-            Map<String, Object> response = productService.findAllProducts();
-            logger.info("Controller: Retornando {} produtos", response.get("count"));
+            List<Product> products = productService.getAllProducts();
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("count", products.size());
+            response.put("products", products);
+            
+            logger.info("Controller: Retornando {} produtos", products.size());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Controller: Erro ao buscar produtos", e);
@@ -46,13 +54,14 @@ public class ProductController {
 
     // GET /products/{id} - Buscar produto por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<?> getProductById(@PathVariable Long id) {
         logger.info("Controller: Recebida requisição para buscar produto com ID {}", id);
-        Optional<Product> product = productService.findProductById(id);
+        Optional<Product> productOpt = productService.getProductById(id);
         
-        if (product.isPresent()) {
-            logger.info("Controller: Produto encontrado e retornado: {}", product.get().getTitle());
-            return ResponseEntity.ok(product.get());
+        if (productOpt.isPresent()) {
+            Product product = productOpt.get();
+            logger.info("Controller: Produto encontrado e retornado: {}", product.getTitle());
+            return ResponseEntity.ok(product);
         } else {
             logger.info("Controller: Produto com ID {} não encontrado", id);
             return ResponseEntity.notFound().build();
@@ -66,70 +75,85 @@ public class ProductController {
             logger.info("Controller: Recebida requisição para criar produto '{}' para usuário ID {}", 
                     product.getTitle(), userId);
             
-            Product savedProduct = productService.saveProduct(product, userId);
+            Map<String, Object> result = productService.createProduct(product, userId);
             
-            logger.info("Controller: Produto criado com sucesso. ID: {}", savedProduct.getId());
-            return ResponseEntity.ok(savedProduct);
+            if ((boolean) result.get("success")) {
+                logger.info("Controller: Produto criado com sucesso");
+                return ResponseEntity.ok(result);
+            } else {
+                logger.warn("Controller: Falha ao criar produto: {}", result.get("message"));
+                return ResponseEntity.badRequest().body(result);
+            }
         } catch (Exception e) {
             logger.error("Controller: Erro ao criar produto", e);
-            return ResponseEntity.badRequest()
-                .body(Map.of("success", false, "message", "Erro ao criar produto: " + e.getMessage()));
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "Erro ao criar produto: " + e.getMessage());
+            return ResponseEntity.badRequest().body(error);
         }
-    }
-
-    // PUT /products/{id} - Atualizar produto
-    @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        try {
-            logger.info("Controller: Recebida requisição para atualizar produto com ID {}", id);
-            Product updatedProduct = productService.updateProduct(id, product);
-            logger.info("Controller: Produto atualizado com sucesso: {}", updatedProduct.getTitle());
-            return ResponseEntity.ok(updatedProduct);
-        } catch (IllegalArgumentException e) {
-            logger.error("Controller: Produto com ID {} não encontrado para atualização", id);
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    // DELETE /products/{id} - Deletar produto
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        logger.info("Controller: Recebida requisição para remover produto com ID {}", id);
-        boolean deleted = productService.deleteProduct(id);
-        
-        if (deleted) {
-            logger.info("Controller: Produto com ID {} removido com sucesso", id);
-            return ResponseEntity.ok().build();
-        } else {
-            logger.error("Controller: Produto com ID {} não encontrado para remoção", id);
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    // GET /products/search?keyword= - Busca por palavra-chave
-    @GetMapping("/search")
-    public ResponseEntity<List<Product>> searchProducts(@RequestParam String keyword) {
-        logger.info("Controller: Recebida requisição para buscar produtos com palavra-chave '{}'", keyword);
-        List<Product> products = productService.searchProductsByKeyword(keyword);
-        logger.info("Controller: Retornando {} produtos para a palavra-chave '{}'", products.size(), keyword);
-        return ResponseEntity.ok(products);
     }
 
     // GET /products/category/{category} - Busca por categoria
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable Product.ProductCategory category) {
+    public ResponseEntity<?> getProductsByCategory(@PathVariable ProductCategory category) {
         logger.info("Controller: Recebida requisição para buscar produtos da categoria {}", category);
-        List<Product> products = productService.findProductsByCategory(category);
+        List<Product> products = productService.getProductsByCategory(category);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("count", products.size());
+        response.put("category", category);
+        response.put("products", products);
+        
         logger.info("Controller: Retornando {} produtos da categoria {}", products.size(), category);
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(response);
     }
     
     // GET /products/user/{userId} - Busca produtos de um usuário específico
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Product>> getProductsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<?> getProductsByUserId(@PathVariable Long userId) {
         logger.info("Controller: Recebida requisição para buscar produtos do usuário ID {}", userId);
-        List<Product> products = productService.findProductsByUserId(userId);
+        List<Product> products = productService.getProductsByUserId(userId);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("count", products.size());
+        response.put("userId", userId);
+        response.put("products", products);
+        
         logger.info("Controller: Retornando {} produtos do usuário ID {}", products.size(), userId);
-        return ResponseEntity.ok(products);
+        return ResponseEntity.ok(response);
+    }
+    
+    // GET /products/search - Busca por termo
+    @GetMapping("/search")
+    public ResponseEntity<?> searchProducts(@RequestParam String term) {
+        logger.info("Controller: Recebida requisição para buscar produtos com termo '{}'", term);
+        List<Product> products = productService.searchProducts(term);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("count", products.size());
+        response.put("searchTerm", term);
+        response.put("products", products);
+        
+        logger.info("Controller: Retornando {} produtos para o termo '{}'", products.size(), term);
+        return ResponseEntity.ok(response);
+    }
+    
+    // GET /products/location - Busca por localização
+    @GetMapping("/location")
+    public ResponseEntity<?> getProductsByLocation(@RequestParam String location) {
+        logger.info("Controller: Recebida requisição para buscar produtos da localização '{}'", location);
+        List<Product> products = productService.getProductsByLocation(location);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("count", products.size());
+        response.put("location", location);
+        response.put("products", products);
+        
+        logger.info("Controller: Retornando {} produtos da localização '{}'", products.size(), location);
+        return ResponseEntity.ok(response);
     }
 }

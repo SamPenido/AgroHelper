@@ -1,66 +1,67 @@
 package com.agrohelper.dao;
 
 import com.agrohelper.entity.Product;
-
+import com.agrohelper.entity.Product.ProductCategory;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Interface DAO (Data Access Object) para operações de persistência de produtos
+ * Interface DAO para acesso aos dados de produtos
  */
 public interface ProductDAO {
     
     /**
-     * Busca todos os produtos
-     * @return Lista de todos os produtos
-     */
-    List<Product> findAll();
-    
-    /**
-     * Busca um produto pelo ID
-     * @param id ID do produto
-     * @return Produto encontrado (ou vazio se não existir)
-     */
-    Optional<Product> findById(Long id);
-    
-    /**
-     * Salva um produto (novo ou existente)
+     * Salva um produto no banco de dados
      * @param product Produto a ser salvo
-     * @return Produto salvo com ID gerado (se for novo)
+     * @return Produto salvo com ID gerado
      */
     Product save(Product product);
     
     /**
-     * Verifica se um produto existe pelo ID
+     * Busca um produto pelo ID
      * @param id ID do produto
-     * @return true se existir, false caso contrário
+     * @return Produto encontrado ou vazio
      */
-    boolean existsById(Long id);
+    Optional<Product> findById(Long id);
     
     /**
-     * Remove um produto pelo ID
-     * @param id ID do produto a ser removido
+     * Lista todos os produtos
+     * @return Lista de produtos
      */
-    void deleteById(Long id);
+    List<Product> findAll();
     
     /**
-     * Busca produtos por categoria
-     * @param category Categoria de produtos
-     * @return Lista de produtos da categoria
-     */
-    List<Product> findByCategory(Product.ProductCategory category);
-    
-    /**
-     * Busca produtos contendo texto no título (case insensitive)
-     * @param title Texto a ser buscado no título
-     * @return Lista de produtos que contêm o texto no título
-     */
-    List<Product> findByTitleContainingIgnoreCase(String title);
-    
-    /**
-     * Busca produtos de um usuário específico ordenados por data de criação
+     * Lista produtos de um usuário específico
      * @param userId ID do usuário
      * @return Lista de produtos do usuário
      */
-    List<Product> findByUserIdOrderByCreatedAtDesc(Long userId);
+    List<Product> findByUserId(Long userId);
+    
+    /**
+     * Busca produtos por categoria
+     * @param category Categoria dos produtos
+     * @return Lista de produtos da categoria
+     */
+    List<Product> findByCategory(ProductCategory category);
+    
+    /**
+     * Busca produtos que contenham o termo de pesquisa no título ou descrição
+     * @param titleTerm Termo de pesquisa para o título
+     * @param descriptionTerm Termo de pesquisa para a descrição
+     * @return Lista de produtos correspondentes
+     */
+    List<Product> findByTitleContainingOrDescriptionContaining(String titleTerm, String descriptionTerm);
+    
+    /**
+     * Busca produtos por localização
+     * @param location Localização a ser pesquisada
+     * @return Lista de produtos da localização
+     */
+    List<Product> findByLocationContaining(String location);
+    
+    /**
+     * Remove um produto pelo ID
+     * @param id ID do produto a remover
+     */
+    void deleteById(Long id);
 }

@@ -1,54 +1,49 @@
 package com.agrohelper.controller;
 
 import com.agrohelper.entity.User;
-import com.agrohelper.repository.UserRepository;
+import com.agrohelper.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
- * Controller para User - Projeto Acadêmico Simplificado
+ * Controller para User - Projeto Acadêmico Refatorado
+ * Implementa o padrão de camadas Controller -> Service -> DAO -> Repository
  */
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "*")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     // POST /users/register - Registrar novo usuário
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@RequestBody User user) {
-        Map<String, Object> response = new HashMap<>();
+        logger.info("Controller: Recebida requisição para registrar usuário com email: {}", user.getEmail());
         
         try {
-            // Verificar se email já existe
-            if (userRepository.existsByEmail(user.getEmail())) {
-                response.put("success", false);
-                response.put("message", "Email já cadastrado!");
+            Map<String, Object> response = userService.registerUser(user);
+            
+            if ((boolean) response.get("success")) {
+                logger.info("Controller: Usuário registrado com sucesso: {}", user.getEmail());
+                return ResponseEntity.ok(response);
+            } else {
+                logger.warn("Controller: Falha ao registrar usuário: {}", response.get("message"));
                 return ResponseEntity.badRequest().body(response);
             }
             
-            // Salvar usuário (senha em texto plano para simplicidade acadêmica)
-            User savedUser = userRepository.save(user);
-            
-            response.put("success", true);
-            response.put("message", "Usuário cadastrado com sucesso!");
-            response.put("user", Map.of(
-                "id", savedUser.getFormattedId(), // Formato 000001
-                "numericId", savedUser.getId(),   // ID numérico original
-                "email", savedUser.getEmail(),
-                "fullName", savedUser.getFullName()
-            ));
-            
-            return ResponseEntity.ok(response);
-            
         } catch (Exception e) {
+            logger.error("Controller: Erro ao registrar usuário", e);
+            Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "Erro ao cadastrar usuário: " + e.getMessage());
             return ResponseEntity.badRequest().body(response);
@@ -58,41 +53,24 @@ public class UserController {
     // POST /users/login - Login do usuário
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginData) {
-        Map<String, Object> response = new HashMap<>();
+        String email = loginData.get("email");
+        logger.info("Controller: Recebida requisição de login para o email: {}", email);
         
         try {
-            String email = loginData.get("email");
             String password = loginData.get("password");
+            Map<String, Object> response = userService.loginUser(email, password);
             
-            Optional<User> userOpt = userRepository.findByEmail(email);
-            
-            if (userOpt.isEmpty()) {
-                response.put("success", false);
-                response.put("message", "Email não encontrado!");
+            if ((boolean) response.get("success")) {
+                logger.info("Controller: Login bem-sucedido para o email: {}", email);
+                return ResponseEntity.ok(response);
+            } else {
+                logger.warn("Controller: Falha no login para o email: {}", email);
                 return ResponseEntity.badRequest().body(response);
             }
-            
-            User user = userOpt.get();
-            
-            // Verificar senha (texto plano para simplicidade acadêmica)
-            if (!user.getPassword().equals(password)) {
-                response.put("success", false);
-                response.put("message", "Senha incorreta!");
-                return ResponseEntity.badRequest().body(response);
-            }
-            
-            response.put("success", true);
-            response.put("message", "Login realizado com sucesso!");
-            response.put("user", Map.of(
-                "id", user.getFormattedId(), // Formato 000001
-                "numericId", user.getId(),   // ID numérico original
-                "email", user.getEmail(),
-                "fullName", user.getFullName()
-            ));
-            
-            return ResponseEntity.ok(response);
             
         } catch (Exception e) {
+            logger.error("Controller: Erro no processo de login", e);
+            Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "Erro no login: " + e.getMessage());
             return ResponseEntity.badRequest().body(response);
