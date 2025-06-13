@@ -5,6 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Produto - AgroHelper</title>
     <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        .processing-log {
+            display: none;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .processing-log h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        
+        .log-entry.frontend {
+            background-color: #e3f2fd;
+        }
+        
+        .log-entry.controller {
+            background-color: #e8f5e9;
+        }
+        
+        .log-entry.service {
+            background-color: #fff8e1;
+        }
+        
+        .log-entry.dao {
+            background-color: #fff3e0;
+        }
+        
+        .log-entry.database {
+            background-color: #fce4ec;
+        }
+
+        .toggle-logs {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #5c6bc0;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -82,11 +137,25 @@
                             <input type="url" id="imageUrl" name="imageUrl" 
                                    placeholder="https://exemplo.com/imagem.jpg">
                         </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="show-processing" name="show-processing">
+                                Mostrar processamento entre camadas (Demo)
+                            </label>
+                        </div>
 
                         <button type="submit" class="btn primary full-width" id="submit-btn">
                             Cadastrar Produto
                         </button>
                     </form>
+                    
+                    <!-- Log de processamento para demonstração -->
+                    <div id="processing-log" class="processing-log">
+                        <h3>Log de Processamento</h3>
+                        <div id="log-content"></div>
+                    </div>
+                    <a id="toggle-logs" class="toggle-logs" style="display: none;">Mostrar logs detalhados</a>
 
                     <div class="auth-links">
                         <a href="index.html">← Voltar ao Marketplace</a>
@@ -119,7 +188,73 @@
                     window.location.href = '../../index.html';
                 }
             });
+            
+            // Toggle para exibir logs
+            document.getElementById('toggle-logs').addEventListener('click', function() {
+                const logElement = document.getElementById('processing-log');
+                const isDisplayed = logElement.style.display === 'block';
+                
+                logElement.style.display = isDisplayed ? 'none' : 'block';
+                this.textContent = isDisplayed ? 'Mostrar logs detalhados' : 'Ocultar logs detalhados';
+            });
         });
+        
+        // Função para adicionar entradas no log
+        function addLogEntry(layer, message) {
+            const logContent = document.getElementById('log-content');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${layer}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            entry.innerHTML = `<strong>${timestamp} [${layer.toUpperCase()}]:</strong> ${message}`;
+            
+            logContent.appendChild(entry);
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+        
+        // Função para simular o processamento nas camadas do backend
+        async function simulateBackendProcessing(productData, userId) {
+            // Frontend
+            addLogEntry('frontend', 'Iniciando envio do produto para o backend...');
+            
+            // Simular delay para cada camada
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Controller
+            addLogEntry('controller', `Controller recebeu requisição para criar produto '${productData.title}'`);
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Service
+            addLogEntry('service', `Service processando dados do produto e validando usuário ID ${userId}`);
+            await new Promise(resolve => setTimeout(resolve, 700));
+            
+            // DAO
+            addLogEntry('dao', 'DAO preparando objeto para persistência no banco de dados');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Database
+            addLogEntry('database', 'Executando INSERT na tabela products');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Resposta do banco
+            addLogEntry('database', 'Produto inserido com sucesso, ID gerado: 42');
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // DAO recebe resposta
+            addLogEntry('dao', 'DAO recebeu confirmação do banco de dados, ID: 42');
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // Service processa resposta
+            addLogEntry('service', 'Service finalizando processamento do produto');
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // Controller retorna resposta
+            addLogEntry('controller', 'Controller retornando resposta para o cliente');
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // Frontend recebe resposta
+            addLogEntry('frontend', 'Frontend recebeu confirmação do cadastro com sucesso!');
+        }
 
         // Enviar formulário
         document.getElementById('product-form').addEventListener('submit', async function(e) {
@@ -128,6 +263,16 @@
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Cadastrando...';
+            
+            // Verificar se deve mostrar processamento
+            const showProcessing = document.getElementById('show-processing').checked;
+            
+            // Limpar log anterior
+            if (showProcessing) {
+                document.getElementById('log-content').innerHTML = '';
+                document.getElementById('processing-log').style.display = 'block';
+                document.getElementById('toggle-logs').style.display = 'block';
+            }
             
             try {
                 const formData = new FormData(this);
@@ -149,21 +294,29 @@
                     throw new Error('Usuário não está logado ou dados do usuário são inválidos');
                 }
                 
-                const response = await fetch(`http://localhost:8080/api/v1/products?userId=${userData.user.numericId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(productData)
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    alert('✅ Produto cadastrado com sucesso!');
-                    window.location.href = 'index.html';
+                // Se mostrar processamento, simular backend
+                if (showProcessing) {
+                    await simulateBackendProcessing(productData, userData.user.numericId);
+                    alert('✅ Produto cadastrado com sucesso! (SIMULAÇÃO)');
+                    // Não redirecionar para poder ver os logs
                 } else {
-                    const error = await response.text();
-                    throw new Error('Erro na API: ' + error);
+                    // Envio real para API
+                    const response = await fetch(`http://localhost:8080/api/v1/products?userId=${userData.user.numericId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(productData)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        alert('✅ Produto cadastrado com sucesso!');
+                        window.location.href = 'index.html';
+                    } else {
+                        const error = await response.text();
+                        throw new Error('Erro na API: ' + error);
+                    }
                 }
 
             } catch (error) {
