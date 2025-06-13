@@ -143,7 +143,13 @@
 
                 console.log('Enviando produto:', productData);
 
-                const response = await fetch('http://localhost:8080/api/v1/products', {
+                // Obter o ID do usuário logado do localStorage
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                if (!userData || !userData.user || !userData.user.numericId) {
+                    throw new Error('Usuário não está logado ou dados do usuário são inválidos');
+                }
+                
+                const response = await fetch(`http://localhost:8080/api/v1/products?userId=${userData.user.numericId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

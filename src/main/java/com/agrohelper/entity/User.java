@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Entidade User - Projeto Acadêmico Simplificado
@@ -16,9 +15,10 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_id_seq", initialValue = 1, allocationSize = 1)
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private Long id;
 
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email deve ser válido")
@@ -51,12 +51,18 @@ public class User {
     }
 
     // Getters e Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+    
+    // Formata o ID para ter 6 dígitos com zeros à esquerda (ex: 000001)
+    public String getFormattedId() {
+        if (id == null) return null;
+        return String.format("%06d", id);
     }
 
     public String getEmail() {

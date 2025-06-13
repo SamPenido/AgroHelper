@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Entidade Product - Projeto Acadêmico Simplificado
@@ -17,9 +16,10 @@ import java.util.UUID;
 public class Product {
 
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_id_seq", initialValue = 1, allocationSize = 1)
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private Long id;
 
     @NotBlank(message = "Título é obrigatório")
     @Column(nullable = false)
@@ -44,6 +44,10 @@ public class Product {
     @NotBlank(message = "Nome do vendedor é obrigatório")
     @Column(name = "seller_name", nullable = false)
     private String sellerName;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -76,22 +80,29 @@ public class Product {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Product(String title, String description, BigDecimal price, ProductCategory category, String sellerName) {
+    public Product(String title, String description, BigDecimal price, ProductCategory category, String sellerName, User user) {
         this();
         this.title = title;
         this.description = description;
         this.price = price;
         this.category = category;
         this.sellerName = sellerName;
+        this.user = user;
     }
 
     // Getters e Setters
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+    
+    // Formata o ID para ter 6 dígitos com zeros à esquerda (ex: 000001)
+    public String getFormattedId() {
+        if (id == null) return null;
+        return String.format("%06d", id);
     }
 
     public String getTitle() {
@@ -141,6 +152,14 @@ public class Product {
     public void setSellerName(String sellerName) {
         this.sellerName = sellerName;
     }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -167,6 +186,7 @@ public class Product {
                 ", category=" + category +
                 ", location='" + location + '\'' +
                 ", sellerName='" + sellerName + '\'' +
+                ", userId=" + (user != null ? user.getFormattedId() : null) +
                 '}';
     }
 }

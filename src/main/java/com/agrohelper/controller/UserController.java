@@ -40,7 +40,8 @@ public class UserController {
             response.put("success", true);
             response.put("message", "Usuário cadastrado com sucesso!");
             response.put("user", Map.of(
-                "id", savedUser.getId(),
+                "id", savedUser.getFormattedId(), // Formato 000001
+                "numericId", savedUser.getId(),   // ID numérico original
                 "email", savedUser.getEmail(),
                 "fullName", savedUser.getFullName()
             ));
@@ -83,7 +84,8 @@ public class UserController {
             response.put("success", true);
             response.put("message", "Login realizado com sucesso!");
             response.put("user", Map.of(
-                "id", user.getId(),
+                "id", user.getFormattedId(), // Formato 000001
+                "numericId", user.getId(),   // ID numérico original
                 "email", user.getEmail(),
                 "fullName", user.getFullName()
             ));

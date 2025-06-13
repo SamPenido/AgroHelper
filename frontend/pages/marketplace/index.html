@@ -111,7 +111,9 @@
         console.log('=== MARKETPLACE PROFISSIONAL CARREGADO ===');
         
         // Configuração
+        console.log('Inicializando configuração do marketplace');
         const API_URL = 'http://localhost:8080/api/v1';
+        console.log('API_URL:', API_URL);
         let produtos = [];
         let filtrosAtivos = {
             categoria: '',
@@ -193,9 +195,41 @@
                 console.log('Buscando produtos da API...');
                 
                 const response = await fetch(`${API_URL}/products`);
-                if (!response.ok) throw new Error('API offline');
+                console.log('Response status:', response.status);
+                if (!response.ok) throw new Error(`API offline (status ${response.status})`);
                 
-                produtos = await response.json();
+                const responseText = await response.text();
+                console.log('Response text:', responseText);
+                
+                // Se resposta estiver vazia, retorna array vazio
+                if (!responseText.trim()) {
+                    console.log('Resposta vazia, retornando array vazio');
+                    produtos = [];
+                    return;
+                }
+                
+                // Tenta parsear o JSON
+                try {
+                    const data = JSON.parse(responseText);
+                    console.log('Resposta completa:', data);
+                    
+                    // Verifica se a resposta tem o formato correto
+                    if (data.products && Array.isArray(data.products)) {
+                        console.log(`Encontrados ${data.count} produtos`);
+                        produtos = data.products;
+                    } else if (Array.isArray(data)) {
+                        console.log('Resposta em formato de array');
+                        produtos = data;
+                    } else {
+                        console.error('Formato de resposta inesperado:', data);
+                        produtos = [];
+                    }
+                } catch (e) {
+                    console.error('Erro ao parsear JSON:', e);
+                    alert('Erro ao processar resposta do servidor. Verifique o console para mais detalhes.');
+                    produtos = [];
+                }
+                
                 console.log(`${produtos.length} produtos carregados`);
                 
                 exibirProdutos(produtos);
