@@ -187,10 +187,7 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
 ---
 
-## 👨‍💻 Integrantes  
-🔹 **Artur Rizzi Martinho**  
-🔹 **Erick Lima Hardeman**  
-🔹 **Gabriel Drumond Franklin de Miranda e Rezende**  
+## 👨‍💻 Desenvolvido por:  
 🔹 **Samuel Penido**  
 
 ---
