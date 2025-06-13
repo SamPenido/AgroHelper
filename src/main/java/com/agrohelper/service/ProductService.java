@@ -62,4 +62,11 @@ public interface ProductService {
      * @return Produto salvo
      */
     Product saveProduct(Product product);
+    
+    /**
+     * Remove um produto pelo ID
+     * @param id ID do produto a ser removido
+     * @return true se o produto foi removido com sucesso, false caso contrário
+     */
+    boolean deleteProduct(Long id);
 }

@@ -66,7 +66,27 @@ public class ProductController {
         if (productOpt.isPresent()) {
             Product product = productOpt.get();
             logger.info("Controller: Produto encontrado e retornado: {}", product.getTitle());
-            return ResponseEntity.ok(product);
+            
+            // Criar um mapa com os dados do produto e incluir explicitamente o userId
+            Map<String, Object> productData = new HashMap<>();
+            productData.put("id", product.getId());
+            productData.put("title", product.getTitle());
+            productData.put("description", product.getDescription());
+            productData.put("price", product.getPrice());
+            productData.put("category", product.getCategory());
+            productData.put("location", product.getLocation());
+            productData.put("sellerName", product.getSellerName());
+            productData.put("imageUrl", product.getImageUrl());
+            productData.put("createdAt", product.getCreatedAt());
+            productData.put("averageRating", product.getAverageRating());
+            productData.put("reviewCount", product.getReviewCount());
+            
+            // Adicionar o ID do usuário dono do produto
+            if (product.getUser() != null) {
+                productData.put("userId", product.getUser().getId());
+            }
+            
+            return ResponseEntity.ok(productData);
         } else {
             logger.info("Controller: Produto com ID {} não encontrado", id);
             return ResponseEntity.notFound().build();
@@ -245,7 +265,15 @@ public class ProductController {
             }
             
             // Remover produto
-            // TODO: Implementar método de remoção de produto no ProductService
+            boolean removed = productService.deleteProduct(id);
+            
+            if (!removed) {
+                logger.warn("Controller: Falha ao remover o produto ID {}", id);
+                Map<String, Object> error = new HashMap<>();
+                error.put("success", false);
+                error.put("message", "Falha ao remover o produto");
+                return ResponseEntity.badRequest().body(error);
+            }
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);

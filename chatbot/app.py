@@ -18,6 +18,12 @@ load_dotenv('../.env')
 # Configurar OpenAI
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+# Verificar se a chave da API foi carregada corretamente
+if not openai.api_key:
+    print("AVISO: Chave da API OpenAI não encontrada no arquivo .env!")
+else:
+    print(f"API OpenAI configurada. Chave começa com: {openai.api_key[:10]}...")
+
 app = FastAPI(title="AgroHelper AI Chatbot")
 
 # Configurar CORS
@@ -166,16 +172,21 @@ async def chat_with_ai(request: ChatRequest, user_info: dict = Depends(verify_to
         # Adicionar mensagem atual
         conversation.append({"role": "user", "content": request.message})
         
-        # Chamar a API da OpenAI
-        response = openai.ChatCompletion.create(
-            model=os.getenv("CHATBOT_MODEL", "gpt-3.5-turbo"),
-            messages=conversation,
-            max_tokens=500,
-            temperature=0.7
-        )
-        
-        # Extrair a resposta
-        ai_message = response.choices[0].message.content
+        # Chamar a API da OpenAI (usando nova sintaxe do cliente OpenAI v1.x)
+        try:
+            response = openai.chat.completions.create(
+                model=os.getenv("CHATBOT_MODEL", "gpt-3.5-turbo"),
+                messages=conversation,
+                max_tokens=500,
+                temperature=0.7
+            )
+            
+            # Extrair a resposta
+            ai_message = response.choices[0].message.content
+            print(f"Resposta recebida da OpenAI: {ai_message[:50]}...")
+        except Exception as openai_error:
+            print(f"Erro na chamada à API da OpenAI: {openai_error}")
+            raise Exception(f"Erro na API da OpenAI: {openai_error}")
         
         # Buscar produto relacionado baseado na análise de contexto
         product = None
@@ -208,7 +219,10 @@ async def chat_with_ai(request: ChatRequest, user_info: dict = Depends(verify_to
         return chat_response
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Erro no processamento da requisição: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Erro no processamento: {str(e)}")
 
 @app.get("/")
 def read_root():

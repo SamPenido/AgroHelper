@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
         userData.put("numericId", savedUser.getId());
         userData.put("email", savedUser.getEmail());
         userData.put("fullName", savedUser.getFullName());
+        userData.put("userType", savedUser.getUserType().toString());
         
         response.put("success", true);
         response.put("message", "Usuário registrado com sucesso");
@@ -89,6 +90,7 @@ public class UserServiceImpl implements UserService {
                 userData.put("numericId", user.getId());
                 userData.put("email", user.getEmail());
                 userData.put("fullName", user.getFullName());
+                userData.put("userType", user.getUserType().toString());
                 
                 response.put("success", true);
                 response.put("message", "Login realizado com sucesso");

@@ -139,4 +139,25 @@ public class ProductServiceImpl implements ProductService {
         logger.info("Service: Produto ID {} salvo com sucesso", savedProduct.getId());
         return savedProduct;
     }
+    
+    @Override
+    @Transactional
+    public boolean deleteProduct(Long id) {
+        logger.info("Service: Removendo produto com ID {}", id);
+        
+        // Verificar se o produto existe
+        if (!productDAO.findById(id).isPresent()) {
+            logger.warn("Service: Produto com ID {} não existe", id);
+            return false;
+        }
+        
+        try {
+            productDAO.deleteById(id);
+            logger.info("Service: Produto ID {} removido com sucesso", id);
+            return true;
+        } catch (Exception e) {
+            logger.error("Service: Erro ao remover produto ID {}", id, e);
+            return false;
+        }
+    }
 }

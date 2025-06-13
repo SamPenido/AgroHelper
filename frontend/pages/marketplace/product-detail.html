@@ -7,234 +7,1616 @@
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <link rel="stylesheet" href="../../assets/css/chatbot.css">
     <style>
-        /* Estilos específicos para a página de detalhes */
-        .product-detail-container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-        .product-images img {
-            width: 100%;
-            max-width: 450px;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-        .product-info-detail h1 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-        .product-info-detail .price {
-            font-size: 1.8rem;
-            color: #27ae60;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-        .product-info-detail .description {
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-        .seller-info {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-        .seller-info h3 {
-            color: #34495e;
-            margin-bottom: 0.5rem;
-        }
-        .action-buttons .btn {
-            margin-right: 1rem;
-            margin-bottom: 0.5rem; /* Para empilhar em telas menores */
-        }
+/* ===== PRODUCT DETAIL PAGE MODERNIZATION ===== */
 
-        @media (max-width: 768px) {
-            .product-detail-container {
-                grid-template-columns: 1fr;
-            }
-            .product-images {
-                text-align: center;
-            }
-        }
+/* Main page container with enhanced background */
+.product-detail-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated background pattern */
+.product-detail-page::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 0%, transparent 50%);
+    animation: floatBackground 20s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes floatBackground {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-50px, -50px) rotate(120deg); }
+    66% { transform: translate(50px, -100px) rotate(240deg); }
+}
+
+/* Enhanced breadcrumb */
+.product-breadcrumb {
+    padding: 1.5rem 5%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.95rem;
+    color: #4a5568;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.product-breadcrumb a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.product-breadcrumb a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.3s ease;
+}
+
+.product-breadcrumb a:hover::after {
+    width: 100%;
+}
+
+/* Revolutionary product detail container */
+.product-detail-container {
+    max-width: 1400px;
+    margin: 3rem auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(30px);
+    border-radius: 32px;
+    box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    position: relative;
+    z-index: 5;
+    animation: slideUpFadeIn 0.8s ease-out;
+}
+
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced category badge */
+.product-category-badge {
+    position: absolute;
+    top: 21rem;
+    right: 1rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+    backdrop-filter: blur(15px);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    z-index: 5;
+    box-shadow: 
+        0 8px 25px rgba(102, 126, 234, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    animation: slideInFromRight 0.6s ease-out 0.3s both;
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Stunning product images section */
+.product-images {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+    padding: 3rem;
+}
+
+.product-images::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(102, 126, 234, 0.1), transparent),
+        radial-gradient(circle at 70% 70%, rgba(118, 75, 162, 0.1), transparent);
+    z-index: 1;
+}
+
+.product-images img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    max-height: 450px;
+    border-radius: 20px;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+}
+
+.product-images img:hover {
+    transform: scale(1.05) rotate(-1deg);
+    filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.2));
+}
+
+/* Premium product info wrapper */
+.product-info-wrapper {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(247,250,252,0.9));
+    position: relative;
+}
+
+.product-info-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+/* Enhanced product title */
+.product-info-detail h1 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-weight: 800;
+    background: linear-gradient(135deg, #2d3748, #4a5568);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: slideInFromRight 0.6s ease-out 0.2s both;
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Spectacular price display */
+.product-info-detail .price {
+    font-size: 3rem;
+    color: #48bb78;
+    font-weight: 900;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: baseline;
+    position: relative;
+    animation: bounceIn 0.8s ease-out 0.4s both;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.product-info-detail .price::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #48bb78, #38a169);
+    border-radius: 2px;
+    animation: expandWidth 0.6s ease-out 0.8s both;
+}
+
+@keyframes expandWidth {
+    from { width: 0; }
+    to { width: 80px; }
+}
+
+.product-info-detail .price .currency {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    color: #68d391;
+    font-weight: 700;
+}
+
+/* Enhanced product meta */
+.product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    color: #718096;
+    animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-meta .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.2rem;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.product-meta .meta-item:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Elegant divider */
+.divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+    margin: 2rem 0;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #667eea, transparent);
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Enhanced description */
+.product-info-detail .description {
+    color: #4a5568;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    animation: fadeInUp 0.6s ease-out 0.8s both;
+}
+
+.product-info-detail .description p {
+    margin-bottom: 1.2rem;
+}
+
+/* Premium features list */
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    animation: fadeInUp 0.6s ease-out 1s both;
+}
+
+.features-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.features-list li:hover {
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 8px;
+    padding-left: 1rem;
+}
+
+.features-list li:before {
+    content: "✓";
+    color: #48bb78;
+    margin-right: 1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    width: 24px;
+    height: 24px;
+    background: rgba(72, 187, 120, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Stunning seller info */
+.seller-info {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out 1.2s both;
+}
+
+.seller-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 20px 20px 0 0;
+}
+
+.seller-info h3 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.seller-info h3:before {
+    content: "👨‍🌾";
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.seller-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.seller-info-grid p {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 0;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.seller-info-grid p:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+}
+
+.seller-contact {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+/* Revolutionary action buttons */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    animation: fadeInUp 0.6s ease-out 1.4s both;
+}
+
+.action-buttons .btn {
+    flex: 1;
+    min-width: 180px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 1.2rem 2rem;
+    font-weight: 700;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.action-buttons .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.action-buttons .btn:hover::before {
+    left: 100%;
+}
+
+.action-buttons .btn.primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 
+        0 8px 25px rgba(102, 126, 234, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.action-buttons .btn.primary:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 15px 35px rgba(102, 126, 234, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.action-buttons .btn.secondary {
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    border: 2px solid #667eea;
+    backdrop-filter: blur(10px);
+}
+
+.action-buttons .btn.secondary:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+}
+
+.action-buttons .btn.danger {
+    background: rgba(255, 255, 255, 0.9);
+    color: #e53e3e;
+    border: 2px solid #e53e3e;
+    backdrop-filter: blur(10px);
+}
+
+.action-buttons .btn.danger:hover {
+    background: rgba(229, 62, 62, 0.1);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(229, 62, 62, 0.2);
+}
+
+.action-buttons .btn.small {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    min-width: 150px;
+}
+
+/* Spectacular related products */
+.related-products {
+    max-width: 1400px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 5;
+}
+
+.related-products h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: fadeInDown 0.6s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.related-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2.5rem;
+}
+
+/* Stunning related product cards */
+.related-product-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.related-product-card:nth-child(1) { animation-delay: 0.1s; }
+.related-product-card:nth-child(2) { animation-delay: 0.2s; }
+.related-product-card:nth-child(3) { animation-delay: 0.3s; }
+.related-product-card:nth-child(4) { animation-delay: 0.4s; }
+
+.related-product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+}
+
+.related-product-card:hover::before {
+    transform: scaleX(1);
+}
+
+.related-product-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.related-product-image {
+    height: 220px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: #f7fafc;
+    position: relative;
+    overflow: hidden;
+}
+
+.related-product-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.related-product-card:hover .related-product-image::after {
+    opacity: 1;
+}
+
+.related-product-info {
+    padding: 2rem;
+}
+
+.related-product-title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #2d3748;
+    line-height: 1.3;
+}
+
+.related-product-price {
+    color: #48bb78;
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+}
+
+.related-product-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.related-product-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Enhanced reviews section */
+.reviews-section {
+    max-width: 1400px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 5;
+}
+
+.reviews-section h2 {
+    margin-bottom: 2rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.reviews-section h2:before {
+    content: "⭐";
+    font-size: 2rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Premium review cards */
+.review-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: slideInFromLeft 0.6s ease-out both;
+}
+
+.review-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    border-radius: 0 4px 4px 0;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.review-author {
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 1.1rem;
+}
+
+.review-rating {
+    color: #f6ad55;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-date {
+    font-size: 0.9rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+.review-content {
+    color: #4a5568;
+    line-height: 1.7;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(102, 126, 234, 0.2);
+    font-size: 1.05rem;
+}
+
+.no-reviews {
+    text-align: center;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* Loading enhancements */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    width: 100%;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top: 4px solid #667eea;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Enhanced product not found */
+.product-not-found {
+    text-align: center;
+    padding: 4rem 3rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(30px);
+    border-radius: 32px;
+    max-width: 600px;
+    margin: 4rem auto;
+    box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 10;
+}
+
+.product-not-found h1 {
+    color: #e53e3e;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.product-not-found p {
+    margin-bottom: 2.5rem;
+    color: #4a5568;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+    .product-detail-container {
+        margin: 2rem 1rem;
+        max-width: none;
+    }
+    
+    .related-products,
+    .reviews-section {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .product-detail-container {
+        grid-template-columns: 1fr;
+        margin: 1.5rem 1rem;
+    }
+    
+    .product-images {
+        min-height: 400px;
+        padding: 2rem;
+    }
+    
+    .product-info-wrapper {
+        padding: 2rem;
+    }
+    
+    .product-info-detail h1 {
+        font-size: 2rem;
+    }
+    
+    .product-info-detail .price {
+        font-size: 2.5rem;
+    }
+    
+    .related-products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-breadcrumb {
+        padding: 1rem 3%;
+        font-size: 0.9rem;
+    }
+    
+    .product-detail-container {
+        border-radius: 20px;
+        margin: 1rem;
+    }
+    
+    .product-category-badge {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        z-index: 3;
+    }
+    
+    .product-images {
+        padding: 1.5rem;
+        min-height: 300px;
+    }
+    
+    .product-info-wrapper {
+        padding: 1.5rem;
+    }
+    
+    .product-info-detail h1 {
+        font-size: 1.8rem;
+    }
+    
+    .product-info-detail .price {
+        font-size: 2.2rem;
+    }
+    
+    .product-meta {
+        gap: 1rem;
+    }
+    
+    .seller-info-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .related-products h2,
+    .reviews-section h2 {
+        font-size: 2rem;
+    }
+    
+    .related-products-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-breadcrumb {
+        padding: 0.8rem 2%;
+        font-size: 0.85rem;
+    }
+    
+    .product-detail-container {
+        margin: 0.5rem;
+        border-radius: 16px;
+    }
+    
+    .product-category-badge {
+        top: 0.8rem;
+        right: 0.8rem;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+        z-index: 3;
+    }
+    
+    .product-info-detail h1 {
+        font-size: 1.6rem;
+    }
+    
+    .product-info-detail .price {
+        font-size: 2rem;
+    }
+    
+    .related-products,
+    .reviews-section {
+        margin: 2rem auto;
+    }
+    
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Performance optimizations */
+.product-detail-page * {
+    will-change: auto;
+}
+
+.product-detail-page *:hover {
+    will-change: transform;
+}
+
+/* Print styles */
+@media print {
+    .product-detail-page::before,
+    .related-products,
+    .reviews-section,
+    .action-buttons {
+        display: none !important;
+    }
+    
+    .product-detail-container {
+        box-shadow: none;
+        background: white;
+    }
+}
     </style>
 </head>
 <body>
-    <header>
-        <!-- Menu (pode ser carregado via JS ou incluído diretamente) -->
-        <nav class="main-nav">
-            <div class="logo">
-                <a href="../../index.html">🌱 AgroHelper</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="../../index.html">Home</a></li>
-                <li><a href="../auth/login.html">Login</a></li>
-                <li><a href="../auth/register.html">Cadastro</a></li>
-                <li><a href="../dashboard/index.html">Dashboard</a></li>
-                <li><a href="index.html" class="active">Marketplace</a></li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </nav>
-    </header>
+    <div class="product-detail-page">
+        <header>
+            <nav class="main-nav">
+                <div class="logo">
+                    <a href="../../index.html">🌱 AgroHelper</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Marketplace</a></li>
+                    <li><a href="add-product.html">Vender</a></li>
+                    <li><a href="#" id="user-name">Usuário</a></li>
+                    <li><a href="#" id="logout-btn">Sair</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </header>
 
-    <main>
-        <section class="product-detail-container">
-            <!-- Coluna de Imagens (Placeholder) -->
-            <div class="product-images">
-                <img src="../../assets/images/placeholder-detail.jpg" alt="Imagem Principal do Produto">
-                <!-- Miniaturas podem ser adicionadas aqui -->
-            </div>
+        <div class="product-breadcrumb">
+            <a href="../../index.html">Home</a> &gt; 
+            <a href="index.html">Marketplace</a> &gt; 
+            <span id="product-title-breadcrumb">Detalhes do Produto</span>
+        </div>
 
-            <!-- Coluna de Informações (Placeholder) -->
-            <div class="product-info-detail">
-                <h1>Nome do Produto Placeholder</h1>
-                <p class="price">R$ 00,00</p>
+        <!-- Área principal carregamento -->
+        <div id="main-content-area">
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+
+        <!-- Template para produto -->
+        <template id="product-detail-template">
+            <section class="product-detail-container">
+                <div class="product-category-badge" id="product-category"></div>
                 
-                <div class="description">
-                    <p>Descrição detalhada do produto placeholder. Aqui virão informações completas sobre o item, suas características, condições, etc.</p>
-                    <ul>
-                        <li>Característica 1</li>
-                        <li>Característica 2</li>
-                        <li>Condição: Novo/Usado</li>
-                    </ul>
+                <div class="product-images">
+                    <img id="product-image" src="" alt="">
                 </div>
+                
+                <div class="product-info-wrapper">
+                    <div class="product-info-detail">
+                        <h1 id="product-title"></h1>
+                        <p class="price"><span class="currency">R$</span> <span id="product-price"></span></p>
+                        
+                        <div class="product-meta">
+                            <div class="meta-item">
+                                <span>📍</span>
+                                <span id="product-location"></span>
+                            </div>
+                            <div class="meta-item">
+                                <span>🗓️</span>
+                                <span id="product-date"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="divider"></div>
+                        
+                        <div class="description">
+                            <p id="product-description"></p>
+                            <ul class="features-list" id="product-features">
+                                <!-- Features will be added dynamically -->
+                            </ul>
+                        </div>
+                        
+                        <div class="seller-info">
+                            <h3>Informações do Vendedor</h3>
+                            <div class="seller-info-grid">
+                                <p><strong>Nome:</strong> <span id="seller-name"></span></p>
+                                <p><strong>Avaliação:</strong> <span id="seller-rating"></span></p>
+                            </div>
+                            <div class="seller-contact">
+                                <a href="#contact-seller" class="btn secondary small">
+                                    <span>✉️</span> Contatar Vendedor
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="btn primary">
+                                <span>🛒</span> Adicionar ao Carrinho
+                            </button>
+                            <button class="btn secondary">
+                                <span>❤️</span> Favoritar
+                            </button>
+                            <button id="delete-product-btn" class="btn danger" style="display: none;">
+                                <span>🗑️</span> Excluir Produto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </template>
 
-                <div class="seller-info">
-                    <h3>Informações do Vendedor</h3>
-                    <p><strong>Nome:</strong> Vendedor Placeholder</p>
-                    <p><strong>Localização:</strong> Cidade Placeholder, Estado</p>
-                    <p><strong>Avaliação:</strong> ⭐⭐⭐⭐ (4.0)</p> <!-- Exemplo -->
-                    <a href="#contact-seller" class="btn secondary small">Contatar Vendedor</a>
-                </div>
+        <!-- Template para produto não encontrado -->
+        <template id="product-not-found-template">
+            <div class="product-not-found">
+                <h1>🔍 Produto não encontrado</h1>
+                <p>O produto que você está procurando não existe ou foi removido.</p>
+                <a href="index.html" class="btn primary">Voltar para o Marketplace</a>
+            </div>
+        </template>
 
-                <div class="action-buttons">
-                    <button class="btn primary">Adicionar ao Carrinho</button>
-                    <button class="btn secondary">Adicionar aos Favoritos</button>
-                </div>
+        <!-- Produtos relacionados -->
+        <section class="related-products" id="related-products-section" style="display:none;">
+            <h2>Produtos Relacionados</h2>
+            <div class="related-products-grid" id="related-products-grid">
+                <!-- Related products will be added dynamically -->
             </div>
         </section>
-    </main>
+
+        <!-- Avaliações do produto -->
+        <section class="reviews-section" id="reviews-section" style="display:none;">
+            <h2>Avaliações do Produto</h2>
+            <div class="reviews-list" id="reviews-list">
+                <!-- Reviews will be added dynamically -->
+            </div>
+        </section>
+    </div>
 
     <footer>
-        <p>AgroHelper &copy; 2025</p>
+        <div class="footer-content">
+            <div class="footer-section footer-company">
+                <h3>🌱 AgroHelper</h3>
+                <p>O primeiro marketplace agrícola com IA do Brasil. Conectamos produtores rurais através de uma plataforma moderna.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>🧭 Navegação</h4>
+                <ul>
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="index.html">Marketplace</a></li>
+                    <li><a href="add-product.html">Vender</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>📦 Categorias</h4>
+                <ul>
+                    <li><a href="index.html">🌾 Grãos & Cereais</a></li>
+                    <li><a href="index.html">🍎 Frutas & Vegetais</a></li>
+                    <li><a href="index.html">🚜 Equipamentos</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 AgroHelper. Todos os direitos reservados.</p>
+        </div>
     </footer>
 
-    <!-- Scripts (ex: para carregar menu, interatividade) -->
-    <!-- <script src="../../assets/js/loadMenu.js"></script> -->
-    
     <!-- Adiciona o script do chatbot -->
     <script src="../../assets/js/chatbot.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Static data for example products
-            const products = {
-                '1': {
-                    title: 'Milho Orgânico (Saca 60kg)',
-                    price: 'R$ 120,00 / saca',
-                    description: 'Milho de alta qualidade, cultivado sem agrotóxicos. Ideal para alimentação animal ou consumo humano.',
-                    features: ['Orgânico Certificado', 'Alto valor nutritivo', 'Colheita recente'],
-                    condition: 'Novo',
-                    sellerName: 'Fazenda Sol Nascente',
-                    sellerLocation: 'Minas Gerais',
-                    sellerRating: '⭐⭐⭐⭐⭐ (4.8)',
-                    image: '../../assets/images/milho.jpg' 
-                },
-                '2': {
-                    title: 'Trator Agrícola Usado MF 275',
-                    price: 'R$ 45.000,00',
-                    description: 'Trator Massey Ferguson 275, ano 2010, em bom estado de conservação e funcionamento. Revisado recentemente.',
-                    features: ['Motor Perkins 4 cilindros', 'Direção Hidráulica', 'Pneus em bom estado'],
-                    condition: 'Usado',
-                    sellerName: 'AgroEquipamentos SP',
-                    sellerLocation: 'São Paulo',
-                    sellerRating: '⭐⭐⭐⭐ (4.2)',
-                    image: '../../assets/images/trator.jpg'
-                },
-                '3': {
-                    title: 'Laranja Pera Orgânica (Caixa 20kg)',
-                    price: 'R$ 50,00 / caixa',
-                    description: 'Laranjas frescas e suculentas, tipo Pera, cultivadas sem agrotóxicos. Colhidas no ponto ideal.',
-                    features: ['Certificação Orgânica', 'Sabor adocicado', 'Ideal para sucos'],
-                    condition: 'Novo',
-                    sellerName: 'Sítio Boa Esperança',
-                    sellerLocation: 'Bahia',
-                    sellerRating: '⭐⭐⭐⭐⭐ (4.9)',
-                    image: '../../assets/images/laranja.jpg'
-                },
-                 '4': {
-                    title: 'Consultoria Agrícola Especializada',
-                    price: 'R$ 300,00 / hora',
-                    description: 'Serviços de consultoria para otimizar sua produção. Inclui análise de solo, planejamento de safra, manejo integrado de pragas e recomendações personalizadas.',
-                    features: ['Engenheiro Agrônomo experiente', 'Foco em sustentabilidade', 'Atendimento remoto ou presencial'],
-                    condition: 'Serviço',
-                    sellerName: 'AgroConsult',
-                    sellerLocation: 'Remoto / Nacional',
-                    sellerRating: '⭐⭐⭐⭐⭐ (5.0)',
-                    image: '../../assets/images/consultoria.jpg'
-                }
+        // Configurações
+        const API_URL = 'http://localhost:8080/api/v1';
+        
+        // Função para formatar o preço
+        function formatarPreco(preco) {
+            return new Intl.NumberFormat('pt-BR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(preco);
+        }
+        
+        // Função para formatar a data
+        function formatarData(dataIso) {
+            if (!dataIso) return "Data não disponível";
+            
+            const data = new Date(dataIso);
+            return new Intl.DateTimeFormat('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }).format(data);
+        }
+        
+        // Função para obter nome de categoria
+        function obterNomeCategoria(categoria) {
+            const nomes = {
+                'GRAINS': '🌾 Grãos',
+                'FRUITS': '🍎 Frutas', 
+                'VEGETABLES': '🥕 Legumes',
+                'EQUIPMENT': '🚜 Equipamentos',
+                'SERVICES': '🛠️ Serviços',
+                'INPUTS': '🧪 Insumos'
             };
+            return nomes[categoria] || categoria;
+        }
+        
+        // Função para gerar uma avaliação simulada
+        function gerarAvaliacao(min = 3, max = 5) {
+            const rating = (Math.random() * (max - min) + min).toFixed(1);
+            let stars = '';
+            for (let i = 0; i < Math.floor(rating); i++) {
+                stars += '⭐';
+            }
+            if (rating % 1 >= 0.5) {
+                stars += '✨';
+            }
+            return `${stars} (${rating})`;
+        }
 
-            // Get product ID from URL
+        // Carregar e exibir detalhes do produto
+        async function carregarDetalhesProduto() {
+            // Obter ID do produto da URL
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
-
-            const product = products[productId];
-
-            // Update page content if product found
-            if (product) {
-                document.querySelector('.product-info-detail h1').textContent = product.title;
-                document.querySelector('.product-info-detail .price').textContent = product.price;
+            
+            if (!productId) {
+                mostrarProdutoNaoEncontrado("ID do produto não fornecido");
+                return;
+            }
+            
+            try {
+                // Buscar dados do produto na API
+                const response = await fetch(`${API_URL}/products/${productId}`);
                 
-                const descriptionDiv = document.querySelector('.product-info-detail .description');
-                descriptionDiv.innerHTML = `<p>${product.description}</p>`; // Clear old content
-                if (product.features) {
-                    const ul = document.createElement('ul');
-                    product.features.forEach(feature => {
-                        const li = document.createElement('li');
-                        li.textContent = feature;
-                        ul.appendChild(li);
-                    });
-                    descriptionDiv.appendChild(ul);
+                if (!response.ok) {
+                    throw new Error(`Erro ao buscar produto: ${response.status}`);
                 }
-                 if (product.condition) {
-                     const p = document.createElement('p');
-                     p.innerHTML = `<strong>Condição:</strong> ${product.condition}`;
-                     descriptionDiv.appendChild(p);
-                 }
-
-
-                const sellerInfoDiv = document.querySelector('.seller-info');
-                sellerInfoDiv.querySelector('p:nth-of-type(1) strong').nextSibling.textContent = ` ${product.sellerName}`;
-                sellerInfoDiv.querySelector('p:nth-of-type(2) strong').nextSibling.textContent = ` ${product.sellerLocation}`;
-                sellerInfoDiv.querySelector('p:nth-of-type(3)').innerHTML = `<strong>Avaliação:</strong> ${product.sellerRating}`;
-
-                document.querySelector('.product-images img').src = product.image;
-                document.querySelector('.product-images img').alt = product.title; // Update alt text
+                
+                const produto = await response.json();
+                exibirProduto(produto);
+                
+                // Atualizar breadcrumb
+                document.getElementById('product-title-breadcrumb').textContent = produto.title;
+                
+                // Carregar produtos relacionados (mesma categoria)
+                carregarProdutosRelacionados(produto.category, produto.id);
+                
+                // Simular avaliações (função fictícia pois ainda não temos na API)
+                simularAvaliacoes(produto.id);
+                
+            } catch (error) {
+                console.error('Erro ao carregar detalhes do produto:', error);
+                mostrarProdutoNaoEncontrado(error.message);
+            }
+        }
+        
+        // Exibir detalhes do produto
+        function exibirProduto(produto) {
+            // Clonar o template
+            const template = document.getElementById('product-detail-template');
+            const produtoNode = document.importNode(template.content, true);
+            
+            // Preencher os dados
+            produtoNode.getElementById('product-title').textContent = produto.title;
+            produtoNode.getElementById('product-price').textContent = formatarPreco(produto.price);
+            produtoNode.getElementById('product-description').textContent = produto.description;
+            produtoNode.getElementById('product-category').textContent = obterNomeCategoria(produto.category);
+            produtoNode.getElementById('product-location').textContent = produto.location || "Localização não informada";
+            produtoNode.getElementById('product-date').textContent = formatarData(produto.createdAt);
+            produtoNode.getElementById('seller-name').textContent = produto.sellerName;
+            produtoNode.getElementById('seller-rating').innerHTML = gerarAvaliacao(); // Simulado
+            
+            // Definir imagem
+            const imgElement = produtoNode.getElementById('product-image');
+            imgElement.src = produto.imageUrl || 'https://via.placeholder.com/500x400?text=Sem+Imagem';
+            imgElement.alt = produto.title;
+            
+            // Adicionar características extraídas da descrição (simulado)
+            const featuresList = produtoNode.getElementById('product-features');
+            
+            // Extrair possíveis características da descrição
+            const descWords = produto.description.split(' ');
+            const features = [];
+            
+            if (descWords.length > 5) {
+                // Algumas características simuladas baseadas em palavras da descrição
+                const adjetivos = ['Qualidade premium', 'Durável', 'Orgânico', 'Sustentável', 'Econômico'];
+                const aleatorio = Math.floor(Math.random() * adjetivos.length);
+                features.push(adjetivos[aleatorio]);
+                
+                // Usar algumas palavras da descrição
+                if (descWords.length > 10) {
+                    const randomWord = descWords[Math.floor(Math.random() * descWords.length)];
+                    if (randomWord.length > 4) {
+                        features.push(`Inclui ${randomWord.toLowerCase()}`);
+                    }
+                }
+                
+                // Adicionar característica baseada na categoria
+                switch (produto.category) {
+                    case 'GRAINS':
+                        features.push('Colheita recente');
+                        break;
+                    case 'FRUITS':
+                        features.push('Frutas frescas');
+                        break;
+                    case 'VEGETABLES':
+                        features.push('Cultivado sem agrotóxicos');
+                        break;
+                    case 'EQUIPMENT':
+                        features.push('Garantia de fábrica');
+                        break;
+                    case 'SERVICES':
+                        features.push('Atendimento personalizado');
+                        break;
+                    case 'INPUTS':
+                        features.push('Alta eficiência');
+                        break;
+                }
+            }
+            
+            // Adicionar as características
+            features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+            
+            // Verificar se o usuário logado é o dono do produto para mostrar botão de exclusão
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const user = userData.user || userData;
+            const deleteButton = produtoNode.getElementById('delete-product-btn');
+            
+            // Obter o ID do usuário do produto (agora enviado diretamente pelo backend)
+            const productUserId = produto.userId;
+            
+            // Mostrar botão sempre para ADMIN, ou para o dono do produto
+            const isAdmin = user && user.userType === 'ADMIN';
+            const isOwner = user && user.numericId && productUserId && 
+                           (user.numericId === productUserId || 
+                            user.numericId.toString() === productUserId.toString());
+            
+            console.log('Verificação de permissão:');
+            console.log('- Usuário logado ID:', user ? user.numericId : 'Não logado');
+            console.log('- Produto dono ID:', productUserId);
+            console.log('- É admin?', isAdmin);
+            console.log('- É dono?', isOwner);
+            
+            // Mostrar botão de exclusão apenas para admin ou dono
+            if (isAdmin || isOwner) {
+                deleteButton.style.display = 'flex';
+                
+                // Adicionar evento de clique para excluir produto
+                deleteButton.addEventListener('click', function() {
+                    excluirProduto(produto.id, user.numericId);
+                });
+            }
+            
+            // Limpar área de carregamento e mostrar produto
+            const mainArea = document.getElementById('main-content-area');
+            mainArea.innerHTML = '';
+            mainArea.appendChild(produtoNode);
+        }
+        
+        // Função para excluir produto
+        async function excluirProduto(produtoId, userId) {
+            if (!confirm('Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/products/${produtoId}?userId=${userId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ Produto excluído com sucesso!');
+                    // Redirecionar para o marketplace
+                    window.location.href = 'index.html';
+                } else {
+                    throw new Error(result.message || 'Erro ao excluir produto');
+                }
+            } catch (error) {
+                console.error('Erro ao excluir produto:', error);
+                alert('❌ Erro ao excluir produto: ' + error.message);
+            }
+        }
+        
+        // Mostrar mensagem de produto não encontrado
+        function mostrarProdutoNaoEncontrado(motivo) {
+            // Clonar o template
+            const template = document.getElementById('product-not-found-template');
+            const notFoundNode = document.importNode(template.content, true);
+            
+            // Atualizar mensagem com o motivo (opcional)
+            if (motivo) {
+                const mensagem = notFoundNode.querySelector('p');
+                mensagem.textContent = `O produto que você está procurando não existe ou foi removido. (${motivo})`;
+            }
+            
+            // Limpar área de carregamento e mostrar mensagem
+            const mainArea = document.getElementById('main-content-area');
+            mainArea.innerHTML = '';
+            mainArea.appendChild(notFoundNode);
+        }
+        
+        // Carregar produtos relacionados
+        async function carregarProdutosRelacionados(categoria, produtoAtualId) {
+            try {
+                const response = await fetch(`${API_URL}/products/category/${categoria}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Erro ao buscar produtos relacionados: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                const produtos = result.products || [];
+                
+                // Filtrar para excluir o produto atual e limitar a 4 produtos
+                const produtosRelacionados = produtos
+                    .filter(p => p.id != produtoAtualId)
+                    .slice(0, 4);
+                
+                if (produtosRelacionados.length > 0) {
+                    exibirProdutosRelacionados(produtosRelacionados);
+                }
+                
+            } catch (error) {
+                console.error('Erro ao carregar produtos relacionados:', error);
+                // Simplesmente não mostra a seção se houver erro
+            }
+        }
+        
+        // Exibir produtos relacionados
+        function exibirProdutosRelacionados(produtos) {
+            const container = document.getElementById('related-products-grid');
+            container.innerHTML = '';
+            
+            produtos.forEach(produto => {
+                const card = document.createElement('div');
+                card.className = 'related-product-card';
+                
+                const imageStyle = produto.imageUrl 
+                    ? `background-image: url('${produto.imageUrl}')`
+                    : `background-image: url('https://via.placeholder.com/300x200?text=Sem+Imagem')`;
+                
+                card.innerHTML = `
+                    <div class="related-product-image" style="${imageStyle}"></div>
+                    <div class="related-product-info">
+                        <h3 class="related-product-title">${produto.title}</h3>
+                        <p class="related-product-price">R$ ${formatarPreco(produto.price)}</p>
+                        <a href="product-detail.html?id=${produto.id}" class="related-product-link">Ver Detalhes</a>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Mostrar a seção
+            document.getElementById('related-products-section').style.display = 'block';
+        }
+        
+        // Simular avaliações para o produto
+        function simularAvaliacoes(produtoId) {
+            // Número aleatório de avaliações
+            const numAvaliacoes = Math.floor(Math.random() * 5);
+            
+            if (numAvaliacoes === 0) {
+                // Não mostrar seção se não houver avaliações
+                return;
+            }
+            
+            const container = document.getElementById('reviews-list');
+            container.innerHTML = '';
+            
+            const nomes = ['João Silva', 'Maria Oliveira', 'Carlos Santos', 'Ana Pereira', 'Pedro Costa'];
+            const comentarios = [
+                'Produto de ótima qualidade, chegou dentro do prazo esperado.',
+                'Excelente produto, recomendo a todos!',
+                'Bom custo-benefício, atendeu às minhas expectativas.',
+                'Fiquei satisfeito com a compra, vendedor muito atencioso.',
+                'Produto conforme descrito no anúncio, boa aquisição.'
+            ];
+            
+            if (numAvaliacoes > 0) {
+                for (let i = 0; i < numAvaliacoes; i++) {
+                    const nomeIndex = Math.floor(Math.random() * nomes.length);
+                    const comentarioIndex = Math.floor(Math.random() * comentarios.length);
+                    const rating = Math.floor(Math.random() * 3) + 3; // 3 a 5 estrelas
+                    
+                    const review = document.createElement('div');
+                    review.className = 'review-card';
+                    
+                    const date = new Date();
+                    date.setDate(date.getDate() - Math.floor(Math.random() * 30)); // Data nos últimos 30 dias
+                    
+                    const formattedDate = formatarData(date);
+                    
+                    let stars = '';
+                    for (let j = 0; j < rating; j++) {
+                        stars += '⭐';
+                    }
+                    
+                    review.innerHTML = `
+                        <div class="review-header">
+                            <span class="review-author">${nomes[nomeIndex]}</span>
+                            <span class="review-rating">${stars}</span>
+                        </div>
+                        <div class="review-date">${formattedDate}</div>
+                        <div class="review-content">
+                            <p>${comentarios[comentarioIndex]}</p>
+                        </div>
+                    `;
+                    
+                    container.appendChild(review);
+                }
             } else {
-                // Handle case where product ID is not found or invalid
-                document.querySelector('.product-info-detail').innerHTML = '<h1>Produto não encontrado</h1><p>O produto que você está procurando não existe ou o link está incorreto.</p>';
-                document.querySelector('.product-images').style.display = 'none'; // Hide image area
+                // Mensagem de "Sem avaliações"
+                container.innerHTML = `
+                    <div class="no-reviews">
+                        <p>Este produto ainda não possui avaliações.</p>
+                    </div>
+                `;
             }
-
-            /* // Simulação de verificação de autenticação ao carregar a página - TEMPORARIAMENTE DESABILITADO PARA APRESENTAÇÃO
-            const token = localStorage.getItem('authToken');
-            if (!token) {
-                alert('Você precisa estar logado para ver os detalhes do produto.');
-                window.location.href = '../auth/login.html'; // Redireciona se não houver token
+            
+            // Mostrar a seção
+            document.getElementById('reviews-section').style.display = 'block';
+        }
+        
+        // Verificar usuário logado e configurar menu
+        function verificarUsuarioLogado() {
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                try {
+                    const result = JSON.parse(userData);
+                    const user = result.user || result; // Suporta ambas estruturas
+                    
+                    document.getElementById('user-name').textContent = `Olá, ${user.fullName}`;
+                    
+                    // Verificar tipo de usuário e esconder opções conforme necessário
+                    if (user.userType === 'BUYER') {
+                        const venderLink = document.querySelector('a[href="add-product.html"]');
+                        if (venderLink) {
+                            venderLink.parentElement.style.display = 'none';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar dados do usuário:', error);
+                    redirecionarParaLogin();
+                }
+            } else {
+                redirecionarParaLogin();
             }
-            */
+            
+            // Configurar botão de logout
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Tem certeza que deseja sair?')) {
+                    localStorage.removeItem('userData');
+                    localStorage.removeItem('isLoggedIn');
+                    window.location.href = '../../index.html';
+                }
+            });
+        }
+        
+        // Redirecionar para login
+        function redirecionarParaLogin() {
+            // Armazenar URL atual para redirecionamento após login
+            localStorage.setItem('redirectAfterLogin', window.location.href);
+            
+            // Redirecionar para login
+            window.location.href = '../auth/login.html';
+        }
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            verificarUsuarioLogado();
+            carregarDetalhesProduto();
+            
+            // Configurar navegação mobile
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
         });
     </script>
 </body>
