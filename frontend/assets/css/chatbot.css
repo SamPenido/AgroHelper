@@ -45,7 +45,8 @@
     font-size: 1.1rem;
 }
 
-.chatbot-title svg {
+.chatbot-title svg, 
+.chatbot-title img {
     width: 24px;
     height: 24px;
 }
@@ -324,7 +325,7 @@
     color: #1e293b;
 }
 
-/* Responsive Styles */
+/* Responsividade */
 @media (max-width: 480px) {
     .chatbot-container {
         width: 100%;

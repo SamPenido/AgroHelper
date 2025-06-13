@@ -1,6 +1,6 @@
 # 🌱 AgroHelper - Plataforma Inteligente para Agricultura 🚜  
 
-O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios agricultores na **gestão de suas propriedades**, fornecendo **previsões climáticas, diagnóstico de pragas por IA, um chatbot agrícola e um marketplace para compra e venda de produtos agrícolas**.
+O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios agricultores na **gestão de suas propriedades**, fornecendo **um marketplace para compra e venda de produtos agrícolas**, além de um **chatbot agrícola inteligente** para assistência especializada.
 
 ---
 
@@ -8,40 +8,46 @@ O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios
 
 ### 🖥️ **Back-end**  
 - Java (Spring Boot)  
-- Spring Security + JWT (Autenticação)  
+- Spring Security + JWT (Autenticação)
+- Arquitetura em camadas (Controller → Service → DAO → Repository)
+- Python + FastAPI (Chatbot IA)
+- OpenAI API (Processamento de Linguagem Natural)
 
 ### 🌍 **Front-end**  
 - HTML, CSS, JavaScript  
+- Design responsivo
+- UI moderna e profissional
 
 ### 📊 **Banco de Dados**  
 - PostgreSQL  
 
-### 🤖 **Inteligência Artificial & Automação**  
-- Python (Análise de Imagens e Previsões Climáticas)  
-- Chatbot para suporte agrícola  
-
-### ☁️ **Infraestrutura & Hospedagem**  
-- AWS ou Heroku  
-
 ---
 
 ## 🚀 Funcionalidades Principais  
-✅ **Cadastro/Login** de usuários (Agricultores, Técnicos, Compradores)  
-✅ **Gestão de Propriedades Agrícolas** (Registro de terrenos e culturas)  
-✅ **Previsão Climática Inteligente**  
-✅ **Diagnóstico de Pragas via IA** (Análise de imagens)  
-✅ **Chatbot para suporte agrícola**  
-✅ **Marketplace** para compra e venda de produtos agrícolas  
-   - Filtros avançados por categoria e localização  
-   - Cards de produtos com informações detalhadas  
-   - Interface intuitiva e responsiva  
-   - Sistema de avaliação de vendedores (em desenvolvimento)  
-✅ **Relatórios de Produção e Custos**  
-   - Dados atualizados em tempo real  
-   - Integração com APIs de previsão e análise  
-   - Histórico de produtividade  
-   - Alertas inteligentes baseados em IA  
-✅ **Alertas Inteligentes** (Notificações sobre clima e pragas)  
+✅ **Sistema de Usuários com Tipos Diferenciados**
+   - BUYER (Comprador): Pode comprar produtos e usar o chatbot
+   - SELLER (Vendedor): Pode vender produtos no marketplace
+   - ADMIN (Administrador): Controle total do sistema
+
+✅ **Marketplace Agrícola**  
+   - Filtros avançados por categoria e preço
+   - Cards de produtos animados e responsivos
+   - Detalhes de produtos completos
+   - Interface intuitiva e profissional
+   - Controle de acesso baseado em tipo de usuário
+
+✅ **Chatbot Agrícola com IA**
+   - Integração com OpenAI
+   - Contexto especializado em agricultura
+   - Recomendação inteligente de produtos
+   - Exclusivo para usuários compradores
+   - Interface interativa e amigável
+
+✅ **Sistema de Autenticação Segura**
+   - Login/Registro com validação
+   - Armazenamento seguro de senhas
+   - Tokens JWT para autenticação
+   - Controle de permissões por tipo de usuário
 
 ---
 
@@ -49,39 +55,134 @@ O **AgroHelper** é um sistema web desenvolvido para auxiliar pequenos e médios
 
 ### 📌 Backend (Java + Spring Boot)
 ```
-agrohelper-backend/
-│── src/
-│   ├── main/java/com/agrohelper/
-│   │   ├── controllers/    # Controladores REST
-│   │   ├── models/         # Modelos das entidades do banco de dados
-│   │   ├── repositories/   # Interfaces para interação com o banco de dados
-│   │   ├── services/       # Lógica de negócio
-│   ├── resources/
-│   │   ├── application.properties  # Configurações do banco de dados
-│── pom.xml    # Dependências do Maven
-│── Dockerfile # Configuração para containerização
-│── README.md  # Documentação do projeto
+src/
+├── main/java/com/agrohelper/
+│   ├── AgroHelperApplication.java  # Classe principal
+│   ├── config/                     # Configurações da aplicação
+│   ├── controller/                 # Controladores REST
+│   ├── service/                    # Camada de serviço
+│   ├── dao/                        # Objetos de acesso a dados
+│   ├── repository/                 # Interfaces para banco de dados
+│   ├── entity/                     # Entidades/modelos
+│   └── exception/                  # Tratamento de exceções
+└── resources/
+    ├── application.properties      # Configurações do Spring
+    └── db/                         # Scripts SQL
 ```
 
-### 📌 Front-end (HTML, CSS e JavaScript)
+### 📌 Front-end
 ```
-agrohelper-frontend/
-│── assets/          # Arquivos estáticos (imagens, ícones)
-│── css/             # Estilos CSS
-│   ├── style.css    # Estilo principal
-│── js/              # Scripts JavaScript
-│   ├── main.js      # Lógica principal da aplicação
-│   ├── api.js       # Conexão com backend (fetch API)
-│   ├── auth.js      # Controle de login e autenticação
-│── pages/           # Páginas individuais
-│   ├── index.html   # Página inicial
-│   ├── login.html   # Tela de login
-│   ├── dashboard.html  # Área do usuário
-│   ├── marketplace.html # Tela de compra e venda
-│   ├── clima.html   # Previsão do tempo
-│   ├── pragas.html  # Diagnóstico de pragas
-│── index.html       # Estrutura principal do site
-│── README.md        # Documentação do frontend
+frontend/
+├── assets/                         # Recursos estáticos
+│   ├── css/                        # Estilos CSS
+│   ├── js/                         # Scripts JavaScript
+│   └── images/                     # Imagens
+├── components/                     # Componentes reutilizáveis
+├── index.html                      # Página inicial
+└── pages/                          # Páginas da aplicação
+    ├── auth/                       # Autenticação (login/registro)
+    │   ├── login.html
+    │   └── register.html
+    └── marketplace/                # Marketplace
+        ├── index.html
+        ├── add-product.html
+        └── product-detail.html
+```
+
+### 📌 Chatbot (Python + FastAPI)
+```
+chatbot/
+├── app.py                          # Aplicação principal FastAPI
+├── agriculture_context.py          # Sistema de contexto agrícola
+└── requirements.txt                # Dependências Python
+```
+
+---
+
+## 🔍 Funcionalidades Detalhadas
+
+### **1️⃣ Marketplace Agrícola** 🛒
+O marketplace permite que agricultores (SELLER) cadastrem seus produtos para venda, enquanto compradores (BUYER) podem navegar, filtrar e visualizar detalhes dos produtos disponíveis.
+
+**Características:**
+- **Sistema de Filtros Avançados**: Categoria, preço, localização
+- **Cards de Produtos Animados**: Design moderno com efeitos de hover
+- **Controle de Acesso**: Apenas vendedores podem adicionar produtos
+- **Categorias de Produtos**: Grãos, Frutas, Legumes, Equipamentos, Serviços, Insumos
+
+### **2️⃣ Chatbot Agrícola com IA** 🤖
+Um assistente virtual especializado em agricultura, utilizando a API da OpenAI e um sistema de contexto específico para fornecer informações precisas sobre cultivo, equipamentos e técnicas agrícolas.
+
+**Características:**
+- **Conhecimento Agrícola Especializado**: Informações sobre culturas, técnicas e equipamentos
+- **Sugestão de Produtos**: Recomendação inteligente baseada na conversa
+- **Interface Amigável**: Design moderno com animações suaves
+- **Exclusivo para Compradores**: Funcionalidade premium para usuários BUYER
+
+### **3️⃣ Arquitetura em Camadas** 🏗️
+Implementação de uma arquitetura robusta seguindo os princípios de separação de responsabilidades:
+
+**Fluxo de Dados:**
+- **Controller**: Recebe requisições HTTP, valida permissões
+- **Service**: Implementa lógica de negócio
+- **DAO**: Abstrai operações de acesso a dados
+- **Repository**: Interface direta com o banco de dados
+
+### **4️⃣ Sistema de Usuários** 👤
+Diferentes tipos de usuários com permissões específicas:
+
+**Tipos:**
+- **BUYER**: Pode comprar produtos e usar o chatbot agrícola
+- **SELLER**: Pode vender produtos no marketplace e visualizar seus anúncios
+- **ADMIN**: Acesso completo ao sistema (não implementado na interface atual)
+
+---
+
+## ⚡ Como Rodar o Projeto  
+
+### 1️⃣ **Pré-requisitos**
+- Java 17+
+- Maven
+- PostgreSQL
+- Python 3.8+ (para o chatbot)
+- Chave da API OpenAI (para o chatbot)
+
+### 2️⃣ **Backend Java**
+```bash
+# Clone o repositório
+git clone https://github.com/SamPenido/agrohelper.git
+cd agrohelper
+
+# Configure o banco de dados PostgreSQL
+# Edite src/main/resources/application.properties com suas credenciais
+
+# Compile e execute com Maven
+mvn spring-boot:run
+```
+
+### 3️⃣ **Frontend**
+```bash
+# Navegue até a pasta do frontend
+cd frontend
+
+# Abra o index.html em um navegador ou use um servidor local
+# Exemplo com Python
+python -m http.server 8000
+```
+
+### 4️⃣ **Chatbot IA (Opcional)**
+```bash
+# Navegue até a pasta do chatbot
+cd chatbot
+
+# Instale dependências
+pip install -r requirements.txt
+
+# Configure a chave da API OpenAI
+# Edite o arquivo .env na raiz do projeto
+
+# Execute o servidor FastAPI
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ---
@@ -94,74 +195,5 @@ agrohelper-frontend/
 
 ---
 
-## 🔍 Detalhes de Implementação Técnica
-
-### **1️⃣ Previsão Climática Inteligente** 🌦️
-#### ✅ **Como Fazer de Forma Simples?**
-* Utilizar APIs de previsão do tempo que já fornecem dados meteorológicos detalhados.
-* Podemos integrar modelos de **aprendizado de máquina** apenas se precisarmos de previsões personalizadas.
-
-#### 🔧 **APIs Recomendadas:**
-* **OpenWeatherMap API** → Dados meteorológicos e previsões climáticas.
-* **Weatherstack API** → Informações meteorológicas em tempo real.
-* **NOAA API (EUA)** → Dados climáticos históricos e previsões.
-
-#### 🚀 **Passos:**
-1. Criar uma conta em uma dessas APIs e obter a chave de acesso.
-2. Fazer chamadas à API para obter previsão do tempo com base na localização da propriedade.
-3. Exibir os dados na interface do usuário.
-
-### **2️⃣ Diagnóstico de Pragas e Doenças via IA e Processamento de Imagens** 🐛
-#### ✅ **Como Fazer de Forma Simples?**
-* Utilizar um **modelo pré-treinado de IA** para identificar pragas em imagens.
-* Podemos usar **APIs de visão computacional** que já fazem análise de imagens.
-
-#### 🔧 **APIs Recomendadas:**
-* **Google Cloud Vision API** → Analisa imagens e pode ser treinada para detectar pragas.
-* **Microsoft Azure Custom Vision** → Permite treinar um modelo específico para diagnóstico agrícola.
-* **Plant.id API** → Especializada na identificação de doenças em plantas.
-
-#### 🚀 **Passos:**
-1. Capturar imagens das folhas e enviar para a API.
-2. A API retorna a identificação da praga e possíveis recomendações.
-3. Exibir os resultados no app para o usuário.
-
-### **3️⃣ Chatbot para Suporte Técnico** 🤖
-#### ✅ **Como Fazer de Forma Simples?**
-* Utilizar um **chatbot pronto** que pode ser treinado com perguntas e respostas específicas.
-* Integrar um bot baseado em **GPT-4** ou APIs de chatbots agrícolas.
-
-#### 🔧 **APIs Recomendadas:**
-* **OpenAI API (ChatGPT)** → Podemos configurar um chatbot agrícola.
-* **Dialogflow (Google)** → Plataforma para criar chatbots personalizados.
-* **Rasa (Open Source)** → Para um chatbot offline e mais customizável.
-
-#### 🚀 **Passos:**
-1. Criar um banco de dados com perguntas frequentes sobre agricultura.
-2. Treinar um modelo de IA com esse banco de dados.
-3. Conectar o chatbot à interface do usuário via API.
-
-### **4️⃣ Análise Preditiva de Produtividade** 🌾📊
-#### ✅ **Como Fazer de Forma Simples?**
-* Utilizar APIs de análise de dados agrícolas para prever produtividade.
-* Combinar dados climáticos, tipo de solo e histórico de produção.
-
-#### 🔧 **APIs Recomendadas:**
-* **Agro API (Agricultural Data)** → Fornece dados sobre colheitas, produtividade e clima.
-* **NASA Earthdata API** → Dados sobre condições do solo e mudanças climáticas.
-* **Google Earth Engine API** → Para análises agrícolas avançadas.
-
-#### 🚀 **Passos:**
-1. Coletar dados de clima, solo e produtividade passada via APIs.
-2. Utilizar algoritmos simples de regressão (ou APIs de IA) para prever produtividade.
-3. Exibir recomendações no painel do usuário.
-
-
-## ⚡ Como Rodar o Projeto  
-
-### 1️⃣ **Clone o repositório**  
-```bash
-git clone https://github.com/SamPenido/agrohelper.git
-cd agrohelper
-```
-
+## 📝 Licença
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.

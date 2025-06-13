@@ -9,8 +9,11 @@ from dotenv import load_dotenv
 import jwt
 from datetime import datetime, timedelta
 
+# Importar o sistema de contexto agrícola
+from agriculture_context import enhance_prompt_with_agricultural_context
+
 # Carregar variáveis de ambiente
-load_dotenv()
+load_dotenv('../.env')
 
 # Configurar OpenAI
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -145,8 +148,16 @@ async def chat_with_ai(request: ChatRequest, user_info: dict = Depends(verify_to
         # if user_info and user_info.get("userType") != "BUYER":
         #     raise HTTPException(status_code=403, detail="Apenas compradores podem usar o chatbot")
         
+        # Obter contexto agrícola aprimorado e recomendações de produtos
+        enhanced_context, recommended_product_ids = enhance_prompt_with_agricultural_context(request.message)
+        
+        # Criar prompt personalizado com contexto agrícola
+        custom_prompt = AGRICULTURE_SYSTEM_PROMPT
+        if enhanced_context:
+            custom_prompt += f"\n\nCONTEXTO RELEVANTE PARA ESTA PERGUNTA:\n{enhanced_context}"
+        
         # Preparar histórico de conversas
-        conversation = [{"role": "system", "content": AGRICULTURE_SYSTEM_PROMPT}]
+        conversation = [{"role": "system", "content": custom_prompt}]
         
         # Adicionar histórico anterior (limite de 10 mensagens para economizar tokens)
         for msg in request.history[-10:]:
@@ -157,7 +168,7 @@ async def chat_with_ai(request: ChatRequest, user_info: dict = Depends(verify_to
         
         # Chamar a API da OpenAI
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model=os.getenv("CHATBOT_MODEL", "gpt-3.5-turbo"),
             messages=conversation,
             max_tokens=500,
             temperature=0.7
@@ -166,8 +177,21 @@ async def chat_with_ai(request: ChatRequest, user_info: dict = Depends(verify_to
         # Extrair a resposta
         ai_message = response.choices[0].message.content
         
-        # Buscar produto relacionado
-        product = find_related_products(request.message)
+        # Buscar produto relacionado baseado na análise de contexto
+        product = None
+        if recommended_product_ids:
+            # Priorizar produtos da análise de contexto agrícola
+            for prod_id in recommended_product_ids:
+                for sample_product in SAMPLE_PRODUCTS:
+                    if sample_product["id"] == prod_id:
+                        product = sample_product
+                        break
+                if product:
+                    break
+        
+        # Se não encontrou produtos recomendados pela análise de contexto, usa busca por palavras-chave
+        if not product:
+            product = find_related_products(request.message)
         
         # Preparar resposta
         chat_response = {"message": ai_message}
@@ -194,7 +218,7 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
         "app:app", 
-        host=os.getenv("HOST", "0.0.0.0"), 
-        port=int(os.getenv("PORT", 8000)),
+        host=os.getenv("CHATBOT_HOST", "0.0.0.0"), 
+        port=int(os.getenv("CHATBOT_PORT", 8000)),
         reload=True
     )
